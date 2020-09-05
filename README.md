@@ -1,2 +1,2 @@
 # Restaurant
-New Styl restaurant in Paris
+LeNewStyl restaurant in Paris

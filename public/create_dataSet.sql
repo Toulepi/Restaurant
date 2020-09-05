@@ -2,58 +2,58 @@
 
 use NewStyl_db;
 
-/* Plat */
+/* "Plat" */
 
-    insert into plat(idPlat, nomPlat,prixU_HT,description,image_name)
+    insert into plat(id, nom_plat,prix_u_ht,description,imd_name)
     values (1,'Ndolè',20,'Met originaire du cameroun, attention si vous le mangez vous ne pourrez plus vous en passer','ndole.jpg'),
-    values (2,'Taro',25,'Spécialité camerounaise, ce plat à des vertues médicamenteuses; en effet elle possède de nombreux condiments naturels','taro.jpg'),
-    values (3,'Eru',20,'Née au sud-ouest du Cameroun, le eru est devenu un plat national et maintenant va à la conquète du monde','eru.jpg'),
-    values (4,'Poulet DG',25,'Met originaire du cameroun il est fait à base de la viande de poulet et de la banane plantain, attention si vous le mangez vous ne pourrez plus vous en passer','pouletDG.jpg'),
+         (2,'Taro',25,'Spécialité camerounaise, ce plat à des vertues médicamenteuses; en effet elle possède de nombreux condiments naturels','taro.jpg'),
+         (3,'Eru',20,'Née au sud-ouest du Cameroun, le eru est devenu un plat national et maintenant va à la conquète du monde','eru.jpg'),
+         (4,'Poulet DG',25,'Met originaire du cameroun il est fait à base de la viande de poulet et de la banane plantain, attention si vous le mangez vous ne pourrez plus vous en passer','pouletDG.jpg'),
 
     /* Grillades */
-    values (5,'Maquereau Braisé',20,'Encore appelé Oya Oya, cette race de maquereau est très bon dans la bouche','maquereau.jpg'),
-    values (6,'Bar braisé',25,'Poisson bar fait au four, assh le goût de ça','bar.jpg'),
-    values (7,'Sole braisé',50,"Poisson des chefs d'Etat c'est un vrai délicé accompagné avec de l'aloco",'sole.jpg'),
-    values (8,'Porc Braisé',10,"Cotes de porc assaisonnés et fait au four",'porc.jpg'),
-    values (9,'Ailes braisées',10,'Ailes de poulet marinées et fait à feu doux au four','ailesPoulet.jpg');
+         (5,'Maquereau Braisé',20,'Encore appelé Oya Oya, cette race de maquereau est très bon dans la bouche','maquereau.jpg'),
+         (6,'Bar braisé',25,'Poisson bar fait au four, assh le goût de ça','bar.jpg'),
+         (7,'Sole braisé',50,'Poisson des chefs d\'Etat c\'est un vrai délicé accompagné avec de l\'aloco','sole.jpg'),
+         (8,'Porc Braisé',10,'Cotes de porc assaisonnés et fait au four','porc.jpg'),
+         (9,'Ailes braisées',10,'Ailes de poulet marinées et fait à feu doux au four','ailesPoulet.jpg');
 
-/* Table nom changé en tableClient*/
+/* "Table" changed by "TableClient"*/
 
-    insert into tableClient (idTable, numTable)
-    values (1,1),(2,2),(3,3),(4,4),(5,5),(5,5),(7,7),(8,8),(9,9),(10,10),(11,11),(12,12);
+    insert into table_client (id, num_table)
+    values (1,1),(2,2),(3,3),(4,4),(5,5),(6,6),(7,7),(8,8),(9,9),(10,10),(11,11),(12,12);
 
-/* Complement */
+/* "Complement" */
 
-    insert into complement (idComplement,nomComplement)
+    insert into complement (id,nom_complement)
     values (1,'Aloco'), (2,'Plantain tapés'), (3,'riz'),(4,'bâtons');
 
-/* Commentaire */
+/* "Commentaire" */
 
-    insert into commentaire (idCommentaire, dateCommentaire, contenu,avis, idPlat)
+    insert into commentaire (id, date_commentaire, contenu,avis, plat_id)
     values (1,'2020-06-15','Tres bon plat, bien cuisiné, bien épicé et très apétissant; je reviendrais dans ce restaurant me régaler.',5,4),
            (2,'2018-08-30','Le maquereau est trop bon dans ce resto, vraiment je recommande',5,5);
 
-/* Client */
+/* "Client" */
 
-    insert into client (idClient,nomClient,prenomClient,email, mdp, numTel)
-    values (1,'lastName','firstName','user@domain.cm','1234','772343337711'),
-           (2,'Jeatsa','Armel','jeatsa@dwwm.as','1234',1122334455),
-           (3,'Tchinda','Toulépi','toulepi@dwwm.as','1234',0623080350),
-           (4,'Fouajio','Victoire','fouajio@dwwm.as','1234',5544332211);
+    insert into client (id,nom_client,prenom_client,email, mdp, num_tel)
+    values (1,'lastName','firstName','user@domain.cm','1234','7723433377'),
+           (2,'Jeatsa','Armel','jeatsa@dwwm.as','1234','2636283920'),
+           (3,'Tchinda','Toulépi','toulepi@dwwm.as','1234','2636283020'),
+           (4,'Fouajio','Victoire','fouajio@dwwm.as','1234','2739202177');
 
-/* LigneCommande */
+/* "LigneCommande" */
 
-    insert into ligneCommande (idLigneCmd, qte, pourcent_remise, idCmd, idPlat, idEntDss, idBoisson)
-    values (1,1,0,1,4,,1),
-            (2,2,5,2,7,,4),
+    insert into ligne_commande (id, qte, pourcent_remise, commande_id, plat_id, entree_dessert_id, boisson_id)
+    values (1,1,0,1,4,1,1),
+            (2,2,5,2,7,1,4),
             (3,1,0,3,7,1,7),
-            (4,1,0,4,7,,6),
+            (4,1,0,4,5,1,6),
             (5,3,10,5,7,1,8),
-            (6,1,0,6,7,,3);
+            (6,1,0,6,3,1,3);
 
-/* Commande */
+/* "Commande" */
 
-insert into commande (idCmd, num_Cmd, adress_livr, idClient,date_cmd,)
+insert into commande (id, num_Cmd, adress_livr, client_id,date_cmd)
     values (1,'cmd01','9B rue de la Sablière,Asnieres',3,'2020-08-18'),
            (2,'cmd02','6 rue des heritiers,Gennevilliers',1,'2017-04-10'),
            (3,'cmd03','3 rue de Diakite,Mali',4,'2016-09-18'),
@@ -61,42 +61,42 @@ insert into commande (idCmd, num_Cmd, adress_livr, idClient,date_cmd,)
            (5,'cmd05','6 rue des heritiers,Gennevilliers',1,'2020-01-10'),
            (6,'cmd06','6 rue du camerounais,Boquito',2,'2020-06-10');
 
-/* Boisson */
+/* "Boisson" */
 
     /* Possible de Trier les boissons par catégorie */
 
-    insert into boisson (idBoisson,nomBoisson, prixBoisson)
-            /* Jus */
+    insert into boisson (id,nom_boisson, prix_boisson)
+            /* Sans alcool */
     values  (1,'Foléré',3),
-            (2,'Matango',5),
+            (2,'Djindja',5),
             (3,'Jus',5),
 
             /* Bières */
-            (4,'Heineken',5),
+            (4,'Matango',5),
             (5,'Desperados',7),
             (6,'Leffe',8),
 
-            /* Liqueurs */
+            /* Liqueurs (Whisky & Champagnes) */
             (7,'Chivas 12 ans',60),
             (8,'Chivas 18 ans',80),
             (9,'Dom Perignon',300);
 
-/* Entree_Dessert */
-    insert into entree_dessert ( idEntDss, nom_entr_dess, prixEntDss )
-    values (1,'Safous',5)
+/* "EntreeDessert" */
+    insert into entree_dessert( id, nom_entr_dess, prix_ent_dss )
+    values (1,'Safous',5);
 
-/* Facture */
+/* "Facture" */
 
-    insert into facture( idFacture, num_facture, date_facture, taux_tva, idCmd )
+    insert into facture( id, num_facture, date_facture, tva, commande_id )
     values (1,'fac01','2020-08-18',20,1),
-    values (2,'fac02','2017-04-10',20,2),
-    values (3,'fac03','2016-09-18',20,3),
-    values (4,'fac04','2016-06-10',20,4),
-    values (5,'fac05','2020-01-10',20,5),
-    values (6,'fac06','2020-06-10',20,6),
+        (2,'fac02','2017-04-10',20,2),
+        (3,'fac03','2016-09-18',20,3),
+        (4,'fac04','2016-06-10',20,4),
+        (5,'fac05','2020-01-10',20,5),
+        (6,'fac06','2020-06-10',20,6);
 
 
-                                /* Test de cohérence de la BDD */
+                                /* Tests de cohérence de la BDD */
                                 /* =========================== */
 
 /* Quelques Requetes */
