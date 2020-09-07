@@ -30,14 +30,9 @@ class EntreeDessert
     private $prixEntDss;
 
     /**
-     * @ORM\OneToMany(targetEntity=LigneCommande::class, mappedBy="entreeDessert")
+     * @ORM\Column(type="string", length=200, nullable=true)
      */
-    private $ligneCommande;
-
-    public function __construct()
-    {
-        $this->ligneCommande = new ArrayCollection();
-    }
+    private $img_entr_dess;
 
     public function getId(): ?int
     {
@@ -68,33 +63,14 @@ class EntreeDessert
         return $this;
     }
 
-    /**
-     * @return Collection|LigneCommande[]
-     */
-    public function getLigneCommande(): Collection
+    public function getImgEntrDess(): ?string
     {
-        return $this->ligneCommande;
+        return $this->img_entr_dess;
     }
 
-    public function addLigneCommande(LigneCommande $ligneCommande): self
+    public function setImgEntrDess(?string $img_entr_dess): self
     {
-        if (!$this->ligneCommande->contains($ligneCommande)) {
-            $this->ligneCommande[] = $ligneCommande;
-            $ligneCommande->setEntreeDessert($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLigneCommande(LigneCommande $ligneCommande): self
-    {
-        if ($this->ligneCommande->contains($ligneCommande)) {
-            $this->ligneCommande->removeElement($ligneCommande);
-            // set the owning side to null (unless already changed)
-            if ($ligneCommande->getEntreeDessert() === $this) {
-                $ligneCommande->setEntreeDessert(null);
-            }
-        }
+        $this->img_entr_dess = $img_entr_dess;
 
         return $this;
     }

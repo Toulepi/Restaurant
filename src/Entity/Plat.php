@@ -25,40 +25,33 @@ class Plat
     private $nomPlat;
 
     /**
-     * @ORM\Column(type="decimal", precision=5, scale=2)
-     */
-    private $prixU_HT;
-
-    /**
      * @ORM\Column(type="text")
      */
     private $description;
 
-    /**
-     * @ORM\Column(type="string", length=150, nullable=true)
-     */
-    private $imd_name;
 
     /**
      * @ORM\OneToMany(targetEntity=Complement::class, mappedBy="plat")
      */
     private $complement;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="plat")
-     */
-    private $commentaire;
+
 
     /**
-     * @ORM\OneToMany(targetEntity=LigneCommande::class, mappedBy="plat")
+     * @ORM\Column(type="decimal", precision=5, scale=2)
      */
-    private $ligneCommande;
+    private $prix_plat;
+
+    /**
+     * @ORM\Column(type="string", length=200)
+     */
+    private $img_plat;
+
+
 
     public function __construct()
     {
         $this->complement = new ArrayCollection();
-        $this->commentaire = new ArrayCollection();
-        $this->ligneCommande = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -78,18 +71,6 @@ class Plat
         return $this;
     }
 
-    public function getPrixUHT(): ?string
-    {
-        return $this->prixU_HT;
-    }
-
-    public function setPrixUHT(string $prixU_HT): self
-    {
-        $this->prixU_HT = $prixU_HT;
-
-        return $this;
-    }
-
     public function getDescription(): ?string
     {
         return $this->description;
@@ -98,18 +79,6 @@ class Plat
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getImdName(): ?string
-    {
-        return $this->imd_name;
-    }
-
-    public function setImdName(?string $imd_name): self
-    {
-        $this->imd_name = $imd_name;
 
         return $this;
     }
@@ -145,65 +114,29 @@ class Plat
         return $this;
     }
 
-    /**
-     * @return Collection|Commentaire[]
-     */
-    public function getCommentaire(): Collection
+
+    public function getPrixPlat(): ?string
     {
-        return $this->commentaire;
+        return $this->prix_plat;
     }
 
-    public function addCommentaire(Commentaire $commentaire): self
+    public function setPrixPlat(string $prix_plat): self
     {
-        if (!$this->commentaire->contains($commentaire)) {
-            $this->commentaire[] = $commentaire;
-            $commentaire->setPlat($this);
-        }
+        $this->prix_plat = $prix_plat;
 
         return $this;
     }
 
-    public function removeCommentaire(Commentaire $commentaire): self
+    public function getImgPlat(): ?string
     {
-        if ($this->commentaire->contains($commentaire)) {
-            $this->commentaire->removeElement($commentaire);
-            // set the owning side to null (unless already changed)
-            if ($commentaire->getPlat() === $this) {
-                $commentaire->setPlat(null);
-            }
-        }
+        return $this->img_plat;
+    }
+
+    public function setImgPlat(string $img_plat): self
+    {
+        $this->img_plat = $img_plat;
 
         return $this;
     }
 
-    /**
-     * @return Collection|LigneCommande[]
-     */
-    public function getLigneCommande(): Collection
-    {
-        return $this->ligneCommande;
-    }
-
-    public function addLigneCommande(LigneCommande $ligneCommande): self
-    {
-        if (!$this->ligneCommande->contains($ligneCommande)) {
-            $this->ligneCommande[] = $ligneCommande;
-            $ligneCommande->setPlat($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLigneCommande(LigneCommande $ligneCommande): self
-    {
-        if ($this->ligneCommande->contains($ligneCommande)) {
-            $this->ligneCommande->removeElement($ligneCommande);
-            // set the owning side to null (unless already changed)
-            if ($ligneCommande->getPlat() === $this) {
-                $ligneCommande->setPlat(null);
-            }
-        }
-
-        return $this;
-    }
 }

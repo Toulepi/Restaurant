@@ -27,6 +27,11 @@ class Complement
      */
     private $plat;
 
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     */
+    private $img_compl;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,18 @@ class Complement
     public function setPlat(?Plat $plat): self
     {
         $this->plat = $plat;
+
+        return $this;
+    }
+
+    public function getImgCompl(): ?string
+    {
+        return $this->img_compl;
+    }
+
+    public function setImgCompl(?string $img_compl): self
+    {
+        $this->img_compl = $img_compl;
 
         return $this;
     }

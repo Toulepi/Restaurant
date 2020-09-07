@@ -30,14 +30,9 @@ class Boisson
     private $prix_boisson;
 
     /**
-     * @ORM\OneToMany(targetEntity=LigneCommande::class, mappedBy="boisson")
+     * @ORM\Column(type="string", length=200, nullable=true)
      */
-    private $ligneCommande;
-
-    public function __construct()
-    {
-        $this->ligneCommande = new ArrayCollection();
-    }
+    private $img_boisson;
 
     public function getId(): ?int
     {
@@ -68,33 +63,14 @@ class Boisson
         return $this;
     }
 
-    /**
-     * @return Collection|LigneCommande[]
-     */
-    public function getLigneCommande(): Collection
+    public function getImgBoisson(): ?string
     {
-        return $this->ligneCommande;
+        return $this->img_boisson;
     }
 
-    public function addLigneCommande(LigneCommande $ligneCommande): self
+    public function setImgBoisson(?string $img_boisson): self
     {
-        if (!$this->ligneCommande->contains($ligneCommande)) {
-            $this->ligneCommande[] = $ligneCommande;
-            $ligneCommande->setBoisson($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLigneCommande(LigneCommande $ligneCommande): self
-    {
-        if ($this->ligneCommande->contains($ligneCommande)) {
-            $this->ligneCommande->removeElement($ligneCommande);
-            // set the owning side to null (unless already changed)
-            if ($ligneCommande->getBoisson() === $this) {
-                $ligneCommande->setBoisson(null);
-            }
-        }
+        $this->img_boisson = $img_boisson;
 
         return $this;
     }

@@ -33,14 +33,14 @@ class Commentaire
     private $avis;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Plat::class, inversedBy="commentaire")
-     */
-    private $plat;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="commentaire")
      */
     private $client;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Produit::class, inversedBy="commentaires")
+     */
+    private $produit;
 
     public function getId(): ?int
     {
@@ -83,18 +83,6 @@ class Commentaire
         return $this;
     }
 
-    public function getPlat(): ?Plat
-    {
-        return $this->plat;
-    }
-
-    public function setPlat(?Plat $plat): self
-    {
-        $this->plat = $plat;
-
-        return $this;
-    }
-
     public function getClient(): ?Client
     {
         return $this->client;
@@ -103,6 +91,18 @@ class Commentaire
     public function setClient(?Client $client): self
     {
         $this->client = $client;
+
+        return $this;
+    }
+
+    public function getProduit(): ?Produit
+    {
+        return $this->produit;
+    }
+
+    public function setProduit(?Produit $produit): self
+    {
+        $this->produit = $produit;
 
         return $this;
     }
