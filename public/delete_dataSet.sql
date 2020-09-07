@@ -22,4 +22,4 @@ drop table table_client;
 
 drop table entree_dessert;
 
-/* drop database NewStyl_db; */
+drop database NewStyl_db;

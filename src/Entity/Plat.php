@@ -6,9 +6,12 @@ use App\Repository\PlatRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Entity\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=PlatRepository::class)
+ * @Vich\Uploadable
  */
 class Plat
 {
@@ -35,8 +38,6 @@ class Plat
      */
     private $complement;
 
-
-
     /**
      * @ORM\Column(type="decimal", precision=5, scale=2)
      */
@@ -44,15 +45,49 @@ class Plat
 
     /**
      * @ORM\Column(type="string", length=200)
+     * @var string|null
      */
     private $img_plat;
+
+    /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     *
+     * @Vich\UploadableField(mapping="image_plat", fileNameProperty="img_plat")
+     *
+     * @var File|null
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     * @var \DateTimeInterface|null
+     */
+    private $updatedAt;
+
+    /**
+     * @param File|null $imageFile
+     */
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
 
     /**
      * @ORM\OneToMany(targetEntity=LigneCommande::class, mappedBy="plat")
      */
     private $ligneCommandes;
-
-
 
     public function __construct()
     {

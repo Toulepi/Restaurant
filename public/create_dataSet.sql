@@ -2,6 +2,45 @@
 
 use newstyl_db;
 
+    /* "EntreeDessert" */
+    insert into entree_dessert( id, nom_entr_dess, prix_ent_dss, img_entr_dess )
+    values (1,'Safous',5,'safous.jpg');
+
+    /* "Plat" */
+
+    insert into plat(id, nom_plat,prix_plat,description,img_plat)
+    values (1,'Ndolè',20,'Met originaire du cameroun, attention si vous le mangez vous ne pourrez plus vous en passer','ndole.jpg'),
+           (2,'Taro',25,'Spécialité camerounaise, ce plat à des vertues médicamenteuses; en effet elle possède de nombreux condiments naturels','taro.jpg'),
+           (3,'Eru',20,'Née au sud-ouest du Cameroun, le eru est devenu un plat national et maintenant va à la conquète du monde','eru.jpg'),
+           (4,'Poulet DG',25,'Met originaire du cameroun il est fait à base de la viande de poulet et de la banane plantain, attention si vous le mangez vous ne pourrez plus vous en passer','pouletDG.jpg'),
+
+        /* Grillades */
+           (5,'Maquereau Braisé',20,'Encore appelé Oya Oya, cette race de maquereau est très bon dans la bouche','maquereau.jpg'),
+           (6,'Bar braisé',25,'Poisson bar fait au four, assh le goût de ça','bar.jpg'),
+           (7,'Sole braisé',50,'Poisson des chefs d\'Etat c\'est un vrai délicé accompagné avec de l\'aloco','sole.jpg'),
+           (8,'Porc Braisé',10,'Cotes de porc assaisonnés et fait au four','porc.jpg'),
+           (9,'Ailes braisées',10,'Ailes de poulet marinées et fait à feu doux au four','ailesPoulet.jpg');
+
+    /* "Boisson" */
+
+    /* Possible de Trier les boissons par catégorie */
+
+    insert into boisson (id,nom_boisson, prix_boisson,img_boisson)
+        /* Sans alcool */
+    values  (1,'Foléré',3,'folere.jpg'),
+            (2,'Djindja',5,'djindja.jpg'),
+            (3,'Top Anana',5,'anana.jpg'),
+
+        /* Bières */
+            (4,'Matango',5,'matango.jpg'),
+            (5,'Desperados',7,'dsp.jpg'),
+            (6,'Leffe',8,'leffe.jpg'),
+
+        /* Liqueurs (Whisky & Champagnes) */
+            (7,'Chivas 12 ans',60,'12ans.jpg'),
+            (8,'Chivas 18 ans',80,'18ans.jpg'),
+            (9,'Dom Perignon',300,'perignon.jpg');
+
 /* "Produit" */
 
     /* Typologie/catégorie du produit _ Entrée-dessert/Plat/Boisson */
@@ -49,20 +88,6 @@ use newstyl_db;
         insert into produit(nom_catg,boisson_id)
         values ('Boisson',1);
 
-/* "Plat" */
-
-    insert into plat(id, nom_plat,prix_plat,description,img_plat)
-    values (1,'Ndolè',20,'Met originaire du cameroun, attention si vous le mangez vous ne pourrez plus vous en passer','ndole.jpg'),
-         (2,'Taro',25,'Spécialité camerounaise, ce plat à des vertues médicamenteuses; en effet elle possède de nombreux condiments naturels','taro.jpg'),
-         (3,'Eru',20,'Née au sud-ouest du Cameroun, le eru est devenu un plat national et maintenant va à la conquète du monde','eru.jpg'),
-         (4,'Poulet DG',25,'Met originaire du cameroun il est fait à base de la viande de poulet et de la banane plantain, attention si vous le mangez vous ne pourrez plus vous en passer','pouletDG.jpg'),
-
-    /* Grillades */
-         (5,'Maquereau Braisé',20,'Encore appelé Oya Oya, cette race de maquereau est très bon dans la bouche','maquereau.jpg'),
-         (6,'Bar braisé',25,'Poisson bar fait au four, assh le goût de ça','bar.jpg'),
-         (7,'Sole braisé',50,'Poisson des chefs d\'Etat c\'est un vrai délicé accompagné avec de l\'aloco','sole.jpg'),
-         (8,'Porc Braisé',10,'Cotes de porc assaisonnés et fait au four','porc.jpg'),
-         (9,'Ailes braisées',10,'Ailes de poulet marinées et fait à feu doux au four','ailesPoulet.jpg');
 
 /* "Table" changed by "TableClient"*/
 
@@ -99,29 +124,8 @@ values (1,'cmd01','9B rue de la Sablière,Asnieres',3,'2020-08-18'),
        (5,'cmd05','6 rue des heritiers,Gennevilliers',1,'2020-01-10'),
        (6,'cmd06','6 rue du camerounais,Boquito',2,'2020-06-10');
 
-/* "Boisson" */
 
-/* Possible de Trier les boissons par catégorie */
 
-insert into boisson (id,nom_boisson, prix_boisson,img_boisson)
-    /* Sans alcool */
-values  (1,'Foléré',3,'folere.jpg'),
-        (2,'Djindja',5,'djindja.jpg'),
-        (3,'Top Anana',5,'anana.jpg'),
-
-    /* Bières */
-        (4,'Matango',5,'matango.jpg'),
-        (5,'Desperados',7,'dsp.jpg'),
-        (6,'Leffe',8,'leffe.jpg'),
-
-    /* Liqueurs (Whisky & Champagnes) */
-        (7,'Chivas 12 ans',60,'12ans.jpg'),
-        (8,'Chivas 18 ans',80,'18ans.jpg'),
-        (9,'Dom Perignon',300,'perignon.jpg');
-
-/* "EntreeDessert" */
-insert into entree_dessert( id, nom_entr_dess, prix_ent_dss, img_entr_dess )
-values (1,'Safous',5,'safous.jpg');
 
 /* "LigneCommande" */
 /* plusieurs insert afin de pouvoir associer à chaque 'produit' une 'qte' et une 'remise' */
