@@ -40,11 +40,6 @@ class Produit
     private $entree_dessert;
 
     /**
-     * @ORM\OneToMany(targetEntity=LigneCommande::class, mappedBy="type_produit")
-     */
-    private $ligneCommandes;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $nom_catg;
@@ -53,7 +48,6 @@ class Produit
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
-        $this->ligneCommandes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -124,38 +118,6 @@ class Produit
     public function setEntreeDessert(?EntreeDessert $entree_dessert): self
     {
         $this->entree_dessert = $entree_dessert;
-
-        return $this;
-    }
-
-
-    /**
-     * @return Collection|LigneCommande[]
-     */
-    public function getLigneCommandes(): Collection
-    {
-        return $this->ligneCommandes;
-    }
-
-    public function addLigneCommande(LigneCommande $ligneCommande): self
-    {
-        if (!$this->ligneCommandes->contains($ligneCommande)) {
-            $this->ligneCommandes[] = $ligneCommande;
-            $ligneCommande->setTypeProduit($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLigneCommande(LigneCommande $ligneCommande): self
-    {
-        if ($this->ligneCommandes->contains($ligneCommande)) {
-            $this->ligneCommandes->removeElement($ligneCommande);
-            // set the owning side to null (unless already changed)
-            if ($ligneCommande->getTypeProduit() === $this) {
-                $ligneCommande->setTypeProduit(null);
-            }
-        }
 
         return $this;
     }

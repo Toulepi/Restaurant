@@ -47,11 +47,17 @@ class Plat
      */
     private $img_plat;
 
+    /**
+     * @ORM\OneToMany(targetEntity=LigneCommande::class, mappedBy="plat")
+     */
+    private $ligneCommandes;
+
 
 
     public function __construct()
     {
         $this->complement = new ArrayCollection();
+        $this->ligneCommandes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -135,6 +141,37 @@ class Plat
     public function setImgPlat(string $img_plat): self
     {
         $this->img_plat = $img_plat;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|LigneCommande[]
+     */
+    public function getLigneCommandes(): Collection
+    {
+        return $this->ligneCommandes;
+    }
+
+    public function addLigneCommande(LigneCommande $ligneCommande): self
+    {
+        if (!$this->ligneCommandes->contains($ligneCommande)) {
+            $this->ligneCommandes[] = $ligneCommande;
+            $ligneCommande->setPlat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLigneCommande(LigneCommande $ligneCommande): self
+    {
+        if ($this->ligneCommandes->contains($ligneCommande)) {
+            $this->ligneCommandes->removeElement($ligneCommande);
+            // set the owning side to null (unless already changed)
+            if ($ligneCommande->getPlat() === $this) {
+                $ligneCommande->setPlat(null);
+            }
+        }
 
         return $this;
     }

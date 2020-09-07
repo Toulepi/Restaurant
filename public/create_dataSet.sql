@@ -4,11 +4,50 @@ use newstyl_db;
 
 /* "Produit" */
 
-    /* Typologie/catégorie du produit */
+    /* Typologie/catégorie du produit _ Entrée-dessert/Plat/Boisson */
     insert into produit(id,nom_catg)
     values (1,'Entrée/Dessert'),
            (2,'Plat'),
            (3,'Boisson');
+
+        /* EntreeDessert */
+        insert into produit(nom_catg,entree_dessert_id)
+        values ('Entrée/Dessert',1);
+
+        /* Plat */
+        insert into produit(nom_catg,plat_id)
+        values ('Plat',1);
+
+        insert into produit(nom_catg,plat_id)
+        values ('Plat',2);
+
+        insert into produit(nom_catg,plat_id)
+        values ('Plat',3);
+
+        insert into produit(nom_catg,plat_id)
+        values ('Plat',4);
+        insert into produit(nom_catg,plat_id)
+        values ('Plat',5);
+
+        insert into produit(nom_catg,plat_id)
+        values ('Plat',6);
+
+        insert into produit(nom_catg,plat_id)
+        values ('Plat',7);
+
+        insert into produit(nom_catg,plat_id)
+        values ('Plat',8);
+
+        insert into produit(nom_catg,plat_id)
+        values ('Plat',9);
+
+        /* Boisson */
+
+        insert into produit(nom_catg,boisson_id)
+        values ('Boisson',5);
+
+        insert into produit(nom_catg,boisson_id)
+        values ('Boisson',1);
 
 /* "Plat" */
 
@@ -85,15 +124,37 @@ insert into entree_dessert( id, nom_entr_dess, prix_ent_dss, img_entr_dess )
 values (1,'Safous',5,'safous.jpg');
 
 /* "LigneCommande" */
+/* plusieurs insert afin de pouvoir associer à chaque 'produit' une 'qte' et une 'remise' */
 
-    insert into ligne_commande (id, qte, pourcent_remise, commande_id,type_produit_id,identifiant_produit)
-    values (1,1,0,1,2,3),
-            (2,2,5,2,1,1),
-            (3,1,0,3,3,1),
-            (4,1,0,4,2,5),
-            (5,4,10,5,2,6),
-            (6,2,0,6,3,1),
-            (7,1,0,2,2,1);
+    insert into ligne_commande (id, qte, pourcent_remise, commande_id,plat_id)
+    values (1,1,0,1,3);
+
+    insert into ligne_commande (id, qte, pourcent_remise, commande_id,entree_dessert_id)
+    values (2,2,5,2,1);
+
+    insert into ligne_commande (id, qte, pourcent_remise, commande_id,boisson_id)
+    values (3,1,0,3,1);
+
+    insert into ligne_commande (id, qte, pourcent_remise, commande_id,plat_id)
+    values (4,1,0,4,5);
+
+    insert into ligne_commande (id, qte, pourcent_remise, commande_id,plat_id)
+    values (5,4,10,5,6);
+
+    insert into ligne_commande (id, qte, pourcent_remise, commande_id,boisson_id)
+    values (6,2,0,6,1);
+
+    insert into ligne_commande (id, qte, pourcent_remise, commande_id,plat_id)
+    values (7,1,0,2,1);
+
+    insert into ligne_commande (id, qte, pourcent_remise, commande_id,boisson_id)
+    values (8,2,0,1,6);
+
+    insert into ligne_commande (id, qte, pourcent_remise, commande_id,entree_dessert_id)
+    values (9,3,0,1,1);
+
+    insert into ligne_commande (id, qte, pourcent_remise, commande_id,plat_id)
+    values (10,1,0,1,7);
 
 /* "Facture" */
 
@@ -134,107 +195,132 @@ values (1,'Safous',5,'safous.jpg');
             where client.id=commande.client_id and client.id = 3;
         */
 
-
-    /* 4- Afficher toutes les lignes de commande */
+    /* 4- Afficher tous les produits par type (catégorie) */
 
         /*
-        select ligne_commande.id,commande_id,qte,pourcent_remise,type_produit_id,nom_catg,identifiant_produit,plat_id,nom_plat
-        from ligne_commande,commande,produit,plat
-        where commande.id = ligne_commande.commande_id
-        and ligne_commande.type_produit_id = produit.id
-        and produit.plat_id = plat.id;
-        and produit.boisson_id = boisson.id;
-        and produit.entree_dessert_id = entree_dessert.id;*/
+        select nom_catg,nom_entr_dess
+        from produit,entree_dessert
+        where produit.entree_dessert_id=entree_dessert.id
 
-    /* 4- Afficher la somme de la commande effectuée par un client donné */
+        UNION
+        select nom_catg,nom_plat
+        from produit,plat
+        where produit.plat_id=plat.id
 
-        /* Tous les plats commandés par un client
+        UNION
+        select nom_catg,nom_boisson
+        from produit,boisson
+        where produit.boisson_id=boisson.id;
+        */
+
+    /* 5- Afficher toutes les lignes de commande */
+        /*
+        select ligne_commande.id,commande_id,qte,pourcent_remise,nom_plat as nomProduit
+        from commande,ligne_commande,plat
+        where ligne_commande.commande_id=commande.id
+        and ligne_commande.plat_id=plat.id
+
+        UNION
+        select ligne_commande.id,commande_id,qte,pourcent_remise,nom_boisson
+        from commande,ligne_commande,boisson
+        where ligne_commande.commande_id=commande.id
+        and ligne_commande.boisson_id=boisson.id
+
+        UNION
+        select ligne_commande.id,commande_id,qte,pourcent_remise,nom_entr_dess
+        from commande,ligne_commande,entree_dessert
+        where ligne_commande.commande_id=commande.id
+          and ligne_commande.entree_dessert_id=entree_dessert.id;
+        */
+
+    /* 6- Afficher le détail de(s) commande(s) effectuée(s) par un client donné */
+
+        /* Tous les plats commandés par un client */
+            /*
             select nom_client,nom_plat,sum(qte) as nbre,prix_plat,(sum(qte) * prix_plat) as totalPlat
-            from client,commande,ligne_commande,produit,plat
+            from client,commande,ligne_commande,plat
             where client.id = commande.client_id
               and commande.id = ligne_commande.commande_id
-              and ligne_commande.type_produit_id= produit.id
-              and produit.plat_id= plat.id
+              and ligne_commande.plat_id= plat.id
               and client_id=3
-            group by nom_client, nom_plat;
-            */
-        /* Toutes les boissons commandées par un client */
-            /*
+            group by nom_client, nom_plat
+
+            UNION
             select nom_client,nom_boisson,sum(qte) as nbre,prix_boisson,(sum(qte) * prix_boisson) as totalBoisson
             from client,commande,ligne_commande,boisson
             where client.id = commande.client_id
               and commande.id = ligne_commande.commande_id
-              and ligne_commande.plat_id= boisson.id
-                 and client_id=3
-            group by nom_client, nom_boisson;
-            */
-        /* Toutes les entrée/dessert commandées par un client */
-            /*
-            select nom_client,nom_entr_dess,sum(qte) as nbre,prix_ent_dss,(sum(qte) * prix_ent_dss) as totalEntrDess
+              and ligne_commande.boisson_id= boisson.id
+              and client_id=3
+            group by nom_client, nom_boisson
+
+            UNION
+            select nom_client,nom_entr_dess,sum(qte) as nbre,prix_ent_dss,(sum(qte) * prix_ent_dss) as totalEntreeDess
             from client,commande,ligne_commande,entree_dessert
             where client.id = commande.client_id
               and commande.id = ligne_commande.commande_id
-              and ligne_commande.plat_id= entree_dessert.id;
-                 and client_id=3
-            group by nom_client, nom_entr_dess; */
+              and ligne_commande.entree_dessert_id= entree_dessert.id
+              and client_id=3
+            group by nom_client, nom_entr_dess;
+            */
+        /* 7- Afficher tous les commentaires
+           lié le commentaire à un produit précis --TODO */
             /*
-            select nom_client,nom_plat,qte,prix_u_ht,(qte * prix_u_ht) as totalPlat,nom_boisson,prix_boisson,nom_entr_dess,prix_ent_dss
-            from client,commande,ligne_commande,plat,boisson,entree_dessert
+            select commentaire.id,nom_client,contenu,avis,nom_catg,produit_id
+            from client,commentaire,produit
+            where commentaire.client_id=client.id
+            and commentaire.produit_id=produit.id;
+            */
+
+        /* 8- Afficher les commentaires qui ont été faits sur un plat précis -- TODO */
+
+
+
+    /* 9- Afficher les clients qui ont commandé un plat */
+        /*
+        select nom_client,nom_plat,date_cmd
+        from client,commande,ligne_commande,plat
+        WHERE client.id=commande.client_id
+        and commande.id=ligne_commande.commande_id
+        and ligne_commande.plat_id=plat.id
+          group by nom_client,nom_plat;*/
+       /* and plat_id=6; */
+
+    /* 10- CA réalisé sur un client donné */
+
+        /*
+        create temporary table CACM (
+            select nom_client,nom_plat as nomProduit,sum(qte) as nbre,prix_plat,(sum(qte) * prix_plat) as CA
+            from client,commande,ligne_commande,plat
             where client.id = commande.client_id
               and commande.id = ligne_commande.commande_id
-              and ligne_commande.plat_id= plat.id;
-                */
-              /*
+              and ligne_commande.plat_id= plat.id
+              and client_id=3
+            group by nom_client, nom_plat
+
+            UNION
+            select nom_client,nom_boisson,sum(qte) as nbre,prix_boisson,(sum(qte) * prix_boisson) as CA
+            from client,commande,ligne_commande,boisson
+            where client.id = commande.client_id
+              and commande.id = ligne_commande.commande_id
               and ligne_commande.boisson_id= boisson.id
-              and ligne_commande.entree_dessert_id= entree_dessert.id;
-             group by nom_client;
-              and client_id = 1;
-                */
-        /*
-            select client_id,quantite,pourcentage_remise,prix_unitaire
-            from exemplaire,ligne_commande,
-                where ligne_commande.exemplaire_id= exemplaire.id and (classement in  (select quantite,pourcentage_remise
-                                                                              from commande,ligne_commande
-                                                                              where commande.id = ligne_commande.commande_id and client_id in (select client_id
-                                                                                                                                           from client
-                                                                                                                                            where client_id=1 )));
+              and client_id=3
+            group by nom_client, nom_boisson
+
+            UNION
+            select nom_client,nom_entr_dess,sum(qte) as nbre,prix_ent_dss,(sum(qte) * prix_ent_dss) as CA
+            from client,commande,ligne_commande,entree_dessert
+            where client.id = commande.client_id
+              and commande.id = ligne_commande.commande_id
+              and ligne_commande.entree_dessert_id= entree_dessert.id
+              and client_id=3
+            group by nom_client, nom_entr_dess
+        );
+        select sum(CA) as ChiffreAffaire
+        from CACM;
         */
 
-        /* 5- Afficher tous les commentaires  -- TODO */
-
-
-
-
-        /* 6- Afficher les commentaires qui ont été faits sur un plat précis -- TODO */
-
-
-
-    /* 7- Afficher les clients qui ont commandé un plat donné */
-
-        /*
-        select nom_client,adresse_livraison, quantite,exemplaire_id,titre
-        from client,commande,ligne_commande,exemplaire,livre
-        where client.id = commande.client_id
-          and commande.id = ligne_commande.commande_id
-          and ligne_commande.exemplaire_id= exemplaire.id
-          and exemplaire.livre_id = livre.id
-          group by nom_client;
-          and exemplaire_id = 4;
-        */
-
-    /* 8- CA réalisé sur un client */
-
-        /*
-        select nom_client, quantite,prix_unitaire,(quantite * prix_unitaire) as CA
-        from client,commande,ligne_commande,exemplaire,livre
-        where client.id = commande.client_id
-          and commande.id = ligne_commande.commande_id
-          and ligne_commande.exemplaire_id= exemplaire.id
-          and exemplaire.livre_id = livre.id
-          order by nom_client;
-         */
-
-    /* 9- Afficher le CA réalisé */
+    /* 11- Afficher le CA réalisé */
 
         /*
         create temporary table CACM (select nom_client, quantite,prix_unitaire,(quantite * prix_unitaire) as CA
@@ -245,4 +331,33 @@ values (1,'Safous',5,'safous.jpg');
             and exemplaire.livre_id = livre.id);
         select sum(CA) as somme
         from CACM;
+         */
+
+        /*
+        create temporary table CACM1 (
+            select nom_client,nom_plat as nomProduit,sum(qte) as nbre,prix_plat,(sum(qte) * prix_plat) as CA
+            from client,commande,ligne_commande,plat
+            where client.id = commande.client_id
+              and commande.id = ligne_commande.commande_id
+              and ligne_commande.plat_id= plat.id
+            group by nom_client, nom_plat
+
+            UNION
+            select nom_client,nom_boisson,sum(qte) as nbre,prix_boisson,(sum(qte) * prix_boisson) as CA
+            from client,commande,ligne_commande,boisson
+            where client.id = commande.client_id
+              and commande.id = ligne_commande.commande_id
+              and ligne_commande.boisson_id= boisson.id
+            group by nom_client, nom_boisson
+
+            UNION
+            select nom_client,nom_entr_dess,sum(qte) as nbre,prix_ent_dss,(sum(qte) * prix_ent_dss) as CA
+            from client,commande,ligne_commande,entree_dessert
+            where client.id = commande.client_id
+              and commande.id = ligne_commande.commande_id
+              and ligne_commande.entree_dessert_id= entree_dessert.id
+            group by nom_client, nom_entr_dess
+        );
+        select sum(CA) as CA_Total
+        from CACM1;
          */

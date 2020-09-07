@@ -34,6 +34,16 @@ class EntreeDessert
      */
     private $img_entr_dess;
 
+    /**
+     * @ORM\OneToMany(targetEntity=LigneCommande::class, mappedBy="entree_dessert")
+     */
+    private $ligneCommandes;
+
+    public function __construct()
+    {
+        $this->ligneCommandes = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -71,6 +81,37 @@ class EntreeDessert
     public function setImgEntrDess(?string $img_entr_dess): self
     {
         $this->img_entr_dess = $img_entr_dess;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|LigneCommande[]
+     */
+    public function getLigneCommandes(): Collection
+    {
+        return $this->ligneCommandes;
+    }
+
+    public function addLigneCommande(LigneCommande $ligneCommande): self
+    {
+        if (!$this->ligneCommandes->contains($ligneCommande)) {
+            $this->ligneCommandes[] = $ligneCommande;
+            $ligneCommande->setEntreeDessert($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLigneCommande(LigneCommande $ligneCommande): self
+    {
+        if ($this->ligneCommandes->contains($ligneCommande)) {
+            $this->ligneCommandes->removeElement($ligneCommande);
+            // set the owning side to null (unless already changed)
+            if ($ligneCommande->getEntreeDessert() === $this) {
+                $ligneCommande->setEntreeDessert(null);
+            }
+        }
 
         return $this;
     }
