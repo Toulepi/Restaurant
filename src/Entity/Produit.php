@@ -3,11 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
@@ -39,7 +41,7 @@ class Produit
     private $description;
 
     /**
-     * @Vich\UploadableField(mapping="image_produit", fileNameProperty="imgName_produit", size="taille_image")
+     * @Vich\UploadableField(mapping="image_produit", fileNameProperty="imgName_produit")
      *
      * @var File|null
      */
@@ -55,9 +57,25 @@ class Produit
     /**
      * @ORM\Column(type="datetime")
      *
-     * @var \DateTimeInterface|null
+     * @var DateTime|null
      */
     private $updatedAt;
+
+    /**
+     * @return DateTime|null
+     */
+    public function getUpdatedAt(): ?DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param DateTime|null $updatedAt
+     */
+    public function setUpdatedAt(?DateTime $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
 
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
@@ -66,7 +84,7 @@ class Produit
      * must be able to accept an instance of 'File' as the bundle will inject one here
      * during Doctrine hydration.
      *
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
+     * @param File|UploadedFile|null $imageFile
      */
     public function setImageFile(?File $imageFile = null): void
     {
@@ -75,7 +93,7 @@ class Produit
         if (null !== $imageFile) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
-            $this->updatedAt = new \DateTimeImmutable();
+            $this->updatedAt = new DateTime();
         }
     }
 
@@ -164,14 +182,6 @@ class Produit
     public function getCommentaire(): Collection
     {
         return $this->commentaire;
-    }
-
-    /**
-     * @return \DateTimeInterface|null
-     */
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
     }
 
     public function addCommentaire(Commentaire $commentaire): self
