@@ -2,121 +2,99 @@
 
 use newstyl_db;
 
-    /* "EntreeDessert" */
-    insert into entree_dessert( id, nom_entr_dess, prix_ent_dss, img_entr_dess )
-    values (1,'Safous',5,'safous.jpg');
-
-    /* "Plat" */
-
-    insert into plat(id, nom_plat,prix_plat,description,img_plat)
-    values (1,'Ndolè',20,'Met originaire du cameroun, attention si vous le mangez vous ne pourrez plus vous en passer','ndole.jpg'),
-           (2,'Taro',25,'Spécialité camerounaise, ce plat à des vertues médicamenteuses; en effet elle possède de nombreux condiments naturels','taro.jpg'),
-           (3,'Eru',20,'Née au sud-ouest du Cameroun, le eru est devenu un plat national et maintenant va à la conquète du monde','eru.jpg'),
-           (4,'Poulet DG',25,'Met originaire du cameroun il est fait à base de la viande de poulet et de la banane plantain, attention si vous le mangez vous ne pourrez plus vous en passer','pouletDG.jpg'),
-
-        /* Grillades */
-           (5,'Maquereau Braisé',20,'Encore appelé Oya Oya, cette race de maquereau est très bon dans la bouche','maquereau.jpg'),
-           (6,'Bar braisé',25,'Poisson bar fait au four, assh le goût de ça','bar.jpg'),
-           (7,'Sole braisé',50,'Poisson des chefs d\'Etat c\'est un vrai délicé accompagné avec de l\'aloco','sole.jpg'),
-           (8,'Porc Braisé',10,'Cotes de porc assaisonnés et fait au four','porc.jpg'),
-           (9,'Ailes braisées',10,'Ailes de poulet marinées et fait à feu doux au four','ailesPoulet.jpg');
-
-    /* "Boisson" */
-
-    /* Possible de Trier les boissons par catégorie */
-
-    insert into boisson (id,nom_boisson, prix_boisson,img_boisson)
-        /* Sans alcool */
-    values  (1,'Foléré',3,'folere.jpg'),
-            (2,'Djindja',5,'djindja.jpg'),
-            (3,'Top Anana',5,'anana.jpg'),
-
-        /* Bières */
-            (4,'Matango',5,'matango.jpg'),
-            (5,'Desperados',7,'dsp.jpg'),
-            (6,'Leffe',8,'leffe.jpg'),
-
-        /* Liqueurs (Whisky & Champagnes) */
-            (7,'Chivas 12 ans',60,'12ans.jpg'),
-            (8,'Chivas 18 ans',80,'18ans.jpg'),
-            (9,'Dom Perignon',300,'perignon.jpg');
-
-/* "Produit" */
-
-    /* Typologie/catégorie du produit _ Entrée-dessert/Plat/Boisson */
-    insert into produit(id,nom_catg)
-    values (1,'Entrée/Dessert'),
-           (2,'Plat'),
-           (3,'Boisson');
-
-        /* EntreeDessert */
-        insert into produit(nom_catg,entree_dessert_id)
-        values ('Entrée/Dessert',1);
-
-        /* Plat */
-        insert into produit(nom_catg,plat_id)
-        values ('Plat',1);
-
-        insert into produit(nom_catg,plat_id)
-        values ('Plat',2);
-
-        insert into produit(nom_catg,plat_id)
-        values ('Plat',3);
-
-        insert into produit(nom_catg,plat_id)
-        values ('Plat',4);
-        insert into produit(nom_catg,plat_id)
-        values ('Plat',5);
-
-        insert into produit(nom_catg,plat_id)
-        values ('Plat',6);
-
-        insert into produit(nom_catg,plat_id)
-        values ('Plat',7);
-
-        insert into produit(nom_catg,plat_id)
-        values ('Plat',8);
-
-        insert into produit(nom_catg,plat_id)
-        values ('Plat',9);
-
-        /* Boisson */
-
-        insert into produit(nom_catg,boisson_id)
-        values ('Boisson',5);
-
-        insert into produit(nom_catg,boisson_id)
-        values ('Boisson',1);
-
-
 /* "Table" changed by "TableClient"*/
 
     insert into table_client (id, num_table)
     values (1,1),(2,2),(3,3),(4,4),(5,5),(6,6),(7,7),(8,8),(9,9),(10,10),(11,11),(12,12);
 
-/* "Complement" */
+/* "Rôle du User" */
 
-    insert into complement (id,nom_complement)
-    values (1,'Aloco'), (2,'Plantain tapés'), (3,'riz'),(4,'bâtons');
+    insert into role (id,num_role)
+    values (1,'Internaute'),
+       (2,'Client'),
+       (3,'Admin');
+
+/* "Catégorie" */
+
+    insert into categorie (id,parent_id, nom_catg,slug)
+    values (1,null,'Entree/Dessert','entr'),
+
+           (2,null,'Plats','plt'),
+               (3,2,'Plats Traditionnels','plt_tr'),
+               (4,2,'Grillades','grll'),
+
+           (5,null,'Accompagnements','compl'),
+
+           (6,null,'Boissons','boiss'),
+               (7,6,'Boissons Alcoolisées','boiss_alc'),
+                   (8,7,'Champagnes & Whisky','champ_whisk'),
+                   (9,7,'Bières','beer'),
+                   (10,7,'Vins','vin'),
+
+               (11,6,'Boissons Sans Alcool','boiss_sans_alc');
+
+/* "Produits" */
+
+    /* "EntreeDessert" */
+    insert into produit(id,categorie_id, nom_produit, prix_produit,description,img_name_produit,updated_at)
+    values (1,1,'Safous',5,'C\'est un légume & qui peut aussi être considéré comme un fruit','safous.jpg',current_timestamp());
+
+    /* "Plat" */
+
+        /* "Plats traditionnels" */
+        insert into produit(id,categorie_id, nom_produit, prix_produit,description,img_name_produit,updated_at)
+        values (2,3,'Ndolè',20,'Met originaire du cameroun, attention si vous le mangez vous ne pourrez plus vous en passer','ndole.jpg',current_timestamp),
+               (3,3,'Taro',25,'Spécialité camerounaise, ce plat à des vertues médicamenteuses; en effet elle possède de nombreux condiments naturels','taro.jpg',current_timestamp),
+               (4,3,'Eru',20,'Née au sud-ouest du Cameroun, le eru est devenu un plat national et maintenant va à la conquète du monde','eru.jpg',current_timestamp),
+               (5,3,'Poulet DG',25,'Met originaire du cameroun il est fait à base de la viande de poulet et de la banane plantain, attention si vous le mangez vous ne pourrez plus vous en passer','pouletDG.jpg',current_timestamp),
+
+        /* Grillades */
+           (6,4,'Maquereau Braisé',20,'Encore appelé Oya Oya, cette race de maquereau est très bon dans la bouche','maquereau.jpg',current_timestamp),
+           (7,4,'Bar braisé',25,'Poisson bar fait au four, assh le goût de ça','bar.jpg',current_timestamp),
+           (8,4,'Sole braisé',50,'Poisson des chefs d\'Etat c\'est un vrai délicé accompagné avec de l\'aloco','sole.jpg',current_timestamp),
+           (9,4,'Porc Braisé',10,'Cotes de porc assaisonnés et fait au four','porc.jpg',current_timestamp),
+           (10,4,'Ailes braisées',10,'Ailes de poulet marinées et fait à feu doux au four','ailesPoulet.jpg',current_timestamp);
+
+        /* "Accompagnements" */
+
+        insert into produit (id, categorie_id, nom_produit, prix_produit, description, img_name_produit, updated_at)
+        values (11,5,'Aloko',3,'','aloko.jpg',current_timestamp),
+               (12,5,'Plantains tapés',3,'','pltnTape.jpg',current_timestamp),
+               (13,5,'Plantains bouillis',3,'','pltnBouill.jpg',current_timestamp),
+               (14,5,'riz',3,'riz cuit à la vapeur','riz.jpg',current_timestamp),
+               (15,5,'bâtons',3,'Bâtons de manioc bouillis','baton.jpg',current_timestamp);
+
+    /* "Boisson" */
+
+         /* Sans alcool */
+    insert into produit (id,categorie_id, nom_produit, prix_produit,description,img_name_produit,updated_at)
+    values  (16,11,'Eau 1.5 L',4,'eau en bouteille de 1,5 litre','eau.jpg',current_date),
+            (17,11,'Eau 50 cl',2,'eau en bouteille de 50 centilitres','eau1.jpg',current_date),
+            (18,11,'Foléré',3,'encore appelée jus d\'oseil elle est portée à ébullition puis refroiduit lors de sa préparation','folere.jpg',current_date),
+            (19,11,'Djindja',5,'jus de gingembre','djindja.jpg',current_date),
+            (20,11,'Top Anana',5,'jus provenant des brasseries du Cameroun','anana.jpg',current_date),
+
+        /* Bières */
+            (21,9,'Matango',5,'vin de palme','matango.jpg',current_date),
+            (22,9,'Desperados',7,'','dsp.jpg',current_date),
+            (23,9,'Leffe',8,'','leffe.jpg',current_date),
+
+        /* Liqueurs (Whisky & Champagnes) */
+            (24,8,'Chivas 12 ans',60,'','12ans.jpg',current_date),
+            (25,8,'Chivas 18 ans',80,'','18ans.jpg',current_date),
+            (26,8,'Dom Perignon',300,'','perignon.jpg',current_date);
 
 /* "Client" */
 
-insert into client (id,nom_client,prenom_client,email, mdp, num_tel)
-values (1,'lastName','firstName','user@domain.cm',1234,'77-23-24-36-36'),
-       (2,'Jeatsa','Armel','jeatsa@dwwm.as',1234,'26-36-28-39-20'),
-       (3,'Tchinda','Toulépi','toulepi@dwwm.as',1234,'26-36-28-30-20'),
-       (4,'Fouajio','Victoire','fouajio@dwwm.as',1234,'27-39-20-21-77');
-
-/* "Commentaire" */
-        /* if faudrait qu'un client ne puisse faire un commentaire que sur un produit qu'il a au préalable commandé */
-        /* le commentaire ici est fait sur une catégorie de produit (boisson,plat...) à corriger -TODO*/
-    insert into commentaire (id, date_commentaire, contenu,avis, client_id,produit_id)
-    values (1,'2020-06-15','Tres bon plat, bien cuisiné, bien épicé et très apétissant; je reviendrais dans ce restaurant me régaler.',5,2,2),
-           (2,'2018-08-30','Le maquereau est trop bon dans ce resto, vraiment je recommande',5,3,2);
+    insert into client (id,table_client_id,nom_client,prenom_client,email, mdp, num_tel)
+    values (1,2,'lastName','firstName','user@domain.cm',1234,'77-23-24-36-36'),
+           (2,4,'Jeatsa','Armel','jeatsa@dwwm.as',1234,'26-36-28-39-20'),
+           (3,4,'Tchinda','Toulépi','toulepi@dwwm.as',1234,'26-36-28-30-20'),
+           (4,3,'Fouajio','Victoire','fouajio@dwwm.as',1234,'27-39-20-21-77');
 
 /* "Commande" */
 
-insert into commande (id, num_Cmd, adress_livr, client_id,date_cmd)
+    insert into commande (id, num_cmd, adress_livr, client_id,date_cmd)
 values (1,'cmd01','9B rue de la Sablière,Asnieres',3,'2020-08-18'),
        (2,'cmd02','6 rue des heritiers,Gennevilliers',1,'2017-04-10'),
        (3,'cmd03','3 rue de Diakite,Mali',4,'2016-09-18'),
@@ -124,51 +102,46 @@ values (1,'cmd01','9B rue de la Sablière,Asnieres',3,'2020-08-18'),
        (5,'cmd05','6 rue des heritiers,Gennevilliers',1,'2020-01-10'),
        (6,'cmd06','6 rue du camerounais,Boquito',2,'2020-06-10');
 
-
-
-
 /* "LigneCommande" */
 /* plusieurs insert afin de pouvoir associer à chaque 'produit' une 'qte' et une 'remise' */
 
-    insert into ligne_commande (id, qte, pourcent_remise, commande_id,plat_id)
-    values (1,1,0,1,3);
-
-    insert into ligne_commande (id, qte, pourcent_remise, commande_id,entree_dessert_id)
-    values (2,2,5,2,1);
-
-    insert into ligne_commande (id, qte, pourcent_remise, commande_id,boisson_id)
-    values (3,1,0,3,1);
-
-    insert into ligne_commande (id, qte, pourcent_remise, commande_id,plat_id)
-    values (4,1,0,4,5);
-
-    insert into ligne_commande (id, qte, pourcent_remise, commande_id,plat_id)
-    values (5,4,10,5,6);
-
-    insert into ligne_commande (id, qte, pourcent_remise, commande_id,boisson_id)
-    values (6,2,0,6,1);
-
-    insert into ligne_commande (id, qte, pourcent_remise, commande_id,plat_id)
-    values (7,1,0,2,1);
-
-    insert into ligne_commande (id, qte, pourcent_remise, commande_id,boisson_id)
-    values (8,2,0,1,6);
-
-    insert into ligne_commande (id, qte, pourcent_remise, commande_id,entree_dessert_id)
-    values (9,3,0,1,1);
-
-    insert into ligne_commande (id, qte, pourcent_remise, commande_id,plat_id)
-    values (10,1,0,1,7);
+    insert into ligne_commande (id, qte, pourcent_remise, commande_id,produit_id)
+    values  (1,1,0,1,3),
+            (2,2,5,2,11),
+            (3,1,0,3,14),
+            (4,1,0,4,15),
+            (5,4,10,5,16),
+            (6,2,0,6,11),
+            (7,1,0,2,25),
+            (8,2,0,1,17),
+            (9,3,0,1,22),
+            (10,1,0,1,18);
 
 /* "Facture" */
 
     insert into facture( id, num_facture, date_facture, tva, commande_id )
     values (1,'fac01','2020-08-18',20,1),
-            (2,'fac02','2017-04-10',20,2),
-            (3,'fac03','2016-09-18',20,3),
-            (4,'fac04','2016-06-10',20,4),
-            (5,'fac05','2020-01-10',20,5),
-            (6,'fac06','2020-06-10',20,6);
+           (2,'fac02','2017-04-10',20,2),
+           (3,'fac03','2016-09-18',20,3),
+           (4,'fac04','2016-06-10',20,4),
+           (5,'fac05','2020-01-10',20,5),
+           (6,'fac06','2020-06-10',20,6);
+
+/* "Commentaire" */
+/* if faudrait qu'un client ne puisse faire un commentaire que sur un produit qu'il a au préalable commandé */
+
+    insert into commentaire (id, date_commentaire, contenu,note, client_id,produit_id)
+    values (1,'2020-06-15','Tres bon plat, bien cuisiné, bien épicé et très apétissant; je reviendrais dans ce restaurant me régaler.',5,2,10),
+       (2,'2018-08-30','Le maquereau est trop bon dans ce resto, vraiment je recommande',5,3,6);
+
+/* "Rôle Client" */
+
+    insert into client_role (client_id,role_id)
+    values (1,1),
+           (2,3),
+           (3,2),
+           (4,2);
+
 
 
                                 /* Tests de cohérence de la BDD */
@@ -179,9 +152,10 @@ values (1,'cmd01','9B rue de la Sablière,Asnieres',3,'2020-08-18'),
     /* 1- récupérer les noms des plats dont le prix est inférieur ou égal à 20€ */
 
         /*
-            select nom_plat,prix_plat
-            from plat
-            where prix_plat <= 20;
+            select nom_produit,prix_produit
+            from produit
+            where prix_produit <= 20
+            and categorie_id = 2;
         */
 
     /* 2- Afficher toutes les commandes */
@@ -202,166 +176,92 @@ values (1,'cmd01','9B rue de la Sablière,Asnieres',3,'2020-08-18'),
     /* 4- Afficher tous les produits par type (catégorie) */
 
         /*
-        select nom_catg,nom_entr_dess
-        from produit,entree_dessert
-        where produit.entree_dessert_id=entree_dessert.id
-
-        UNION
-        select nom_catg,nom_plat
-        from produit,plat
-        where produit.plat_id=plat.id
-
-        UNION
-        select nom_catg,nom_boisson
-        from produit,boisson
-        where produit.boisson_id=boisson.id;
+            select nom_produit,sous_catg_id,nom_catg
+            from produit,categorie
+            where produit.categorie_id=categorie.id
+            group by nom_catg, nom_produit;
         */
 
     /* 5- Afficher toutes les lignes de commande */
+
         /*
-        select ligne_commande.id,commande_id,qte,pourcent_remise,nom_plat as nomProduit
-        from commande,ligne_commande,plat
-        where ligne_commande.commande_id=commande.id
-        and ligne_commande.plat_id=plat.id
-
-        UNION
-        select ligne_commande.id,commande_id,qte,pourcent_remise,nom_boisson
-        from commande,ligne_commande,boisson
-        where ligne_commande.commande_id=commande.id
-        and ligne_commande.boisson_id=boisson.id
-
-        UNION
-        select ligne_commande.id,commande_id,qte,pourcent_remise,nom_entr_dess
-        from commande,ligne_commande,entree_dessert
-        where ligne_commande.commande_id=commande.id
-          and ligne_commande.entree_dessert_id=entree_dessert.id;
+            select commande_id,nom_produit,prix_produit,qte,pourcent_remise
+            from commande,ligne_commande,produit
+            where ligne_commande.commande_id=commande.id
+            and ligne_commande.produit_id=produit.id;
         */
 
     /* 6- Afficher le détail de(s) commande(s) effectuée(s) par un client donné */
 
+
         /* Tous les plats commandés par un client */
             /*
-            select nom_client,nom_plat,sum(qte) as nbre,prix_plat,(sum(qte) * prix_plat) as totalPlat
-            from client,commande,ligne_commande,plat
-            where client.id = commande.client_id
-              and commande.id = ligne_commande.commande_id
-              and ligne_commande.plat_id= plat.id
-              and client_id=3
-            group by nom_client, nom_plat
-
-            UNION
-            select nom_client,nom_boisson,sum(qte) as nbre,prix_boisson,(sum(qte) * prix_boisson) as totalBoisson
-            from client,commande,ligne_commande,boisson
-            where client.id = commande.client_id
-              and commande.id = ligne_commande.commande_id
-              and ligne_commande.boisson_id= boisson.id
-              and client_id=3
-            group by nom_client, nom_boisson
-
-            UNION
-            select nom_client,nom_entr_dess,sum(qte) as nbre,prix_ent_dss,(sum(qte) * prix_ent_dss) as totalEntreeDess
-            from client,commande,ligne_commande,entree_dessert
-            where client.id = commande.client_id
-              and commande.id = ligne_commande.commande_id
-              and ligne_commande.entree_dessert_id= entree_dessert.id
-              and client_id=3
-            group by nom_client, nom_entr_dess;
+                select nom_client,nom_produit,sum(qte) as nbre,prix_produit,(sum(qte) * prix_produit) as sousTotal
+                from client,commande,ligne_commande,produit
+                where client.id = commande.client_id
+                  and commande.id = ligne_commande.commande_id
+                  and ligne_commande.produit_id= produit.id
+                  and client_id=3
+                group by nom_client, nom_produit;
             */
-        /* 7- Afficher tous les commentaires
-           lié le commentaire à un produit précis --TODO */
-            /*
-            select commentaire.id,nom_client,contenu,avis,nom_catg,produit_id
+    /* 7- Afficher tous les commentaires */
+
+        /*
+           select nom_client,contenu,note,nom_produit
             from client,commentaire,produit
             where commentaire.client_id=client.id
             and commentaire.produit_id=produit.id;
-            */
+        */
 
-        /* 8- Afficher les commentaires qui ont été faits sur un plat précis -- TODO */
+    /* 8- Afficher les commentaires qui ont été faits sur un plat précis */
 
-
-
-    /* 9- Afficher les clients qui ont commandé un plat */
         /*
-        select nom_client,nom_plat,date_cmd
-        from client,commande,ligne_commande,plat
-        WHERE client.id=commande.client_id
-        and commande.id=ligne_commande.commande_id
-        and ligne_commande.plat_id=plat.id
-          group by nom_client,nom_plat;*/
-       /* and plat_id=6; */
+            select contenu,note,nom_produit
+            from commentaire,produit
+            where commentaire.produit_id=produit.id
+            and produit_id = 6;
+         */
+
+    /* 9- Afficher les clients qui ont commandé au moins un plat */
+
+        /*
+            select prenom_client,nom_produit,date_cmd
+            from client,commande,ligne_commande,produit,categorie
+            WHERE client.id=commande.client_id
+              and commande.id=ligne_commande.commande_id
+              and ligne_commande.produit_id=produit.id
+              and produit.categorie_id=categorie.id
+                and categorie_id IN (3,4)
+            group by prenom_client,nom_produit;
+         */
 
     /* 10- CA réalisé sur un client donné */
 
         /*
-        create temporary table CACM (
-            select nom_client,nom_plat as nomProduit,sum(qte) as nbre,prix_plat,(sum(qte) * prix_plat) as CA
-            from client,commande,ligne_commande,plat
-            where client.id = commande.client_id
-              and commande.id = ligne_commande.commande_id
-              and ligne_commande.plat_id= plat.id
-              and client_id=3
-            group by nom_client, nom_plat
-
-            UNION
-            select nom_client,nom_boisson,sum(qte) as nbre,prix_boisson,(sum(qte) * prix_boisson) as CA
-            from client,commande,ligne_commande,boisson
-            where client.id = commande.client_id
-              and commande.id = ligne_commande.commande_id
-              and ligne_commande.boisson_id= boisson.id
-              and client_id=3
-            group by nom_client, nom_boisson
-
-            UNION
-            select nom_client,nom_entr_dess,sum(qte) as nbre,prix_ent_dss,(sum(qte) * prix_ent_dss) as CA
-            from client,commande,ligne_commande,entree_dessert
-            where client.id = commande.client_id
-              and commande.id = ligne_commande.commande_id
-              and ligne_commande.entree_dessert_id= entree_dessert.id
-              and client_id=3
-            group by nom_client, nom_entr_dess
-        );
-        select sum(CA) as ChiffreAffaire
-        from CACM;
+            create temporary table CACM (
+                select nom_client,nom_produit as nomProduit,sum(qte) as nbre,prix_produit,(sum(qte) * prix_produit) as CA
+                from client,commande,ligne_commande,produit
+                where client.id = commande.client_id
+                  and commande.id = ligne_commande.commande_id
+                  and ligne_commande.produit_id= produit.id
+                  and client_id=1
+                group by nom_client, nom_produit
+            );
+            select sum(CA) as ChiffreAffaire
+            from CACM;
         */
 
     /* 11- Afficher le CA réalisé */
 
         /*
-        create temporary table CACM (select nom_client, quantite,prix_unitaire,(quantite * prix_unitaire) as CA
-            from client,commande,ligne_commande,exemplaire,livre
-            where client.id = commande.client_id
-            and commande.id = ligne_commande.commande_id
-            and ligne_commande.exemplaire_id= exemplaire.id
-            and exemplaire.livre_id = livre.id);
-        select sum(CA) as somme
-        from CACM;
-         */
-
-        /*
-        create temporary table CACM1 (
-            select nom_client,nom_plat as nomProduit,sum(qte) as nbre,prix_plat,(sum(qte) * prix_plat) as CA
-            from client,commande,ligne_commande,plat
+            create temporary table CACM2 (
+            select nom_client,nom_produit as nomProduit,sum(qte) as nbre,prix_produit,(sum(qte) * prix_produit) as CA
+            from client,commande,ligne_commande,produit
             where client.id = commande.client_id
               and commande.id = ligne_commande.commande_id
-              and ligne_commande.plat_id= plat.id
-            group by nom_client, nom_plat
-
-            UNION
-            select nom_client,nom_boisson,sum(qte) as nbre,prix_boisson,(sum(qte) * prix_boisson) as CA
-            from client,commande,ligne_commande,boisson
-            where client.id = commande.client_id
-              and commande.id = ligne_commande.commande_id
-              and ligne_commande.boisson_id= boisson.id
-            group by nom_client, nom_boisson
-
-            UNION
-            select nom_client,nom_entr_dess,sum(qte) as nbre,prix_ent_dss,(sum(qte) * prix_ent_dss) as CA
-            from client,commande,ligne_commande,entree_dessert
-            where client.id = commande.client_id
-              and commande.id = ligne_commande.commande_id
-              and ligne_commande.entree_dessert_id= entree_dessert.id
-            group by nom_client, nom_entr_dess
-        );
-        select sum(CA) as CA_Total
-        from CACM1;
+              and ligne_commande.produit_id= produit.id
+            group by nom_client, nom_produit
+            );
+            select sum(CA) as ChiffreAffaire
+            from CACM2;
          */

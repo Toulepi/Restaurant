@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CommentaireRepository;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\String_;
 
 /**
  * @ORM\Entity(repositoryClass=CommentaireRepository::class)
@@ -107,5 +108,10 @@ class Commentaire
         $this->produit = $produit;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        // TODO: Implement __toString() method.
     }
 }
