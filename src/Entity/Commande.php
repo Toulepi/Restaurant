@@ -20,12 +20,12 @@ class Commande
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=255)
      */
     private $num_cmd;
 
     /**
-     * @ORM\Column(type="string", length=100, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $adress_livr;
 
@@ -35,24 +35,27 @@ class Commande
     private $date_cmd;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="commande")
-     */
-    private $client;
-
-    /**
-     * @ORM\OneToMany(targetEntity=LigneCommande::class, mappedBy="commande", orphanRemoval=true)
-     */
-    private $ligneCommande;
-
-    /**
      * @ORM\OneToMany(targetEntity=Facture::class, mappedBy="commande", orphanRemoval=true)
      */
     private $facture;
 
+    /**
+     * @ORM\OneToMany(targetEntity=LigneCommande::class, mappedBy="commande", orphanRemoval=true)
+     */
+    private $ligne_commande;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="commande")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $client;
+
+
+
     public function __construct()
     {
-        $this->ligneCommande = new ArrayCollection();
         $this->facture = new ArrayCollection();
+        $this->ligne_commande = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -96,49 +99,6 @@ class Commande
         return $this;
     }
 
-    public function getClient(): ?Client
-    {
-        return $this->client;
-    }
-
-    public function setClient(?Client $client): self
-    {
-        $this->client = $client;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|LigneCommande[]
-     */
-    public function getLigneCommande(): Collection
-    {
-        return $this->ligneCommande;
-    }
-
-    public function addLigneCommande(LigneCommande $ligneCommande): self
-    {
-        if (!$this->ligneCommande->contains($ligneCommande)) {
-            $this->ligneCommande[] = $ligneCommande;
-            $ligneCommande->setCommande($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLigneCommande(LigneCommande $ligneCommande): self
-    {
-        if ($this->ligneCommande->contains($ligneCommande)) {
-            $this->ligneCommande->removeElement($ligneCommande);
-            // set the owning side to null (unless already changed)
-            if ($ligneCommande->getCommande() === $this) {
-                $ligneCommande->setCommande(null);
-            }
-        }
-
-        return $this;
-    }
-
     /**
      * @return Collection|Facture[]
      */
@@ -169,4 +129,48 @@ class Commande
 
         return $this;
     }
+
+    /**
+     * @return Collection|LigneCommande[]
+     */
+    public function getLigneCommande(): Collection
+    {
+        return $this->ligne_commande;
+    }
+
+    public function addLigneCommande(LigneCommande $ligneCommande): self
+    {
+        if (!$this->ligne_commande->contains($ligneCommande)) {
+            $this->ligne_commande[] = $ligneCommande;
+            $ligneCommande->setCommande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLigneCommande(LigneCommande $ligneCommande): self
+    {
+        if ($this->ligne_commande->contains($ligneCommande)) {
+            $this->ligne_commande->removeElement($ligneCommande);
+            // set the owning side to null (unless already changed)
+            if ($ligneCommande->getCommande() === $this) {
+                $ligneCommande->setCommande(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): self
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
 }

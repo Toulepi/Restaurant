@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Complement;
+use App\Entity\Categorie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Complement|null find($id, $lockMode = null, $lockVersion = null)
- * @method Complement|null findOneBy(array $criteria, array $orderBy = null)
- * @method Complement[]    findAll()
- * @method Complement[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Categorie|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Categorie|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Categorie[]    findAll()
+ * @method Categorie[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ComplementRepository extends ServiceEntityRepository
+class CategorieRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Complement::class);
+        parent::__construct($registry, Categorie::class);
     }
 
     // /**
-    //  * @return Complement[] Returns an array of Complement objects
+    //  * @return Categorie[] Returns an array of Categorie objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class ComplementRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Complement
+    public function findOneBySomeField($value): ?Categorie
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')

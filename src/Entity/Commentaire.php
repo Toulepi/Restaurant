@@ -18,33 +18,47 @@ class Commentaire
     private $id;
 
     /**
+     * @ORM\Column(type="date")
+     */
+    private $date_commentaire;
+
+    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $contenu;
 
     /**
-     * @ORM\Column(type="date")
-     */
-    private $dateCommentaire;
-
-    /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $avis;
+    private $note;
 
     /**
      * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="commentaire")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $client;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Produit::class, inversedBy="commentaires")
+     * @ORM\ManyToOne(targetEntity=Produit::class, inversedBy="commentaire")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $produit;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getDateCommentaire(): ?\DateTimeInterface
+    {
+        return $this->date_commentaire;
+    }
+
+    public function setDateCommentaire(\DateTimeInterface $date_commentaire): self
+    {
+        $this->date_commentaire = $date_commentaire;
+
+        return $this;
     }
 
     public function getContenu(): ?string
@@ -59,26 +73,14 @@ class Commentaire
         return $this;
     }
 
-    public function getDateCommentaire(): ?\DateTimeInterface
+    public function getNote(): ?int
     {
-        return $this->dateCommentaire;
+        return $this->note;
     }
 
-    public function setDateCommentaire(\DateTimeInterface $dateCommentaire): self
+    public function setNote(?int $note): self
     {
-        $this->dateCommentaire = $dateCommentaire;
-
-        return $this;
-    }
-
-    public function getAvis(): ?int
-    {
-        return $this->avis;
-    }
-
-    public function setAvis(?int $avis): self
-    {
-        $this->avis = $avis;
+        $this->note = $note;
 
         return $this;
     }

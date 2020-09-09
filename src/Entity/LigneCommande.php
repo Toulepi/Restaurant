@@ -28,26 +28,15 @@ class LigneCommande
     private $pourcent_remise;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Commande::class, inversedBy="ligneCommande")
+     * @ORM\ManyToOne(targetEntity=Commande::class, inversedBy="ligne_commande")
      * @ORM\JoinColumn(nullable=false)
      */
     private $commande;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Plat::class, inversedBy="ligneCommandes")
+     * @ORM\ManyToOne(targetEntity=Produit::class, inversedBy="ligne_commande")
      */
-    private $plat;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Boisson::class, inversedBy="ligneCommandes")
-     */
-    private $boisson;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=EntreeDessert::class, inversedBy="ligneCommandes")
-     */
-    private $entree_dessert;
-
+    private $produit;
 
     public function getId(): ?int
     {
@@ -90,40 +79,15 @@ class LigneCommande
         return $this;
     }
 
-    public function getPlat(): ?Plat
+    public function getProduit(): ?Produit
     {
-        return $this->plat;
+        return $this->produit;
     }
 
-    public function setPlat(?Plat $plat): self
+    public function setProduit(?Produit $produit): self
     {
-        $this->plat = $plat;
+        $this->produit = $produit;
 
         return $this;
     }
-
-    public function getBoisson(): ?Boisson
-    {
-        return $this->boisson;
-    }
-
-    public function setBoisson(?Boisson $boisson): self
-    {
-        $this->boisson = $boisson;
-
-        return $this;
-    }
-
-    public function getEntreeDessert(): ?EntreeDessert
-    {
-        return $this->entree_dessert;
-    }
-
-    public function setEntreeDessert(?EntreeDessert $entree_dessert): self
-    {
-        $this->entree_dessert = $entree_dessert;
-
-        return $this;
-    }
-
 }

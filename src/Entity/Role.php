@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\TableClientRepository;
+use App\Repository\RoleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=TableClientRepository::class)
+ * @ORM\Entity(repositoryClass=RoleRepository::class)
  */
-class TableClient
+class Role
 {
     /**
      * @ORM\Id
@@ -20,12 +20,12 @@ class TableClient
     private $id;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", length=100)
      */
-    private $num_table;
+    private $num_role;
 
     /**
-     * @ORM\OneToMany(targetEntity=Client::class, mappedBy="table_client")
+     * @ORM\ManyToMany(targetEntity=Client::class, mappedBy="role")
      */
     private $clients;
 
@@ -39,14 +39,14 @@ class TableClient
         return $this->id;
     }
 
-    public function getNumTable(): ?int
+    public function getNumRole(): ?string
     {
-        return $this->num_table;
+        return $this->num_role;
     }
 
-    public function setNumTable(?int $num_table): self
+    public function setNumRole(string $num_role): self
     {
-        $this->num_table = $num_table;
+        $this->num_role = $num_role;
 
         return $this;
     }
@@ -63,7 +63,7 @@ class TableClient
     {
         if (!$this->clients->contains($client)) {
             $this->clients[] = $client;
-            $client->setTableClient($this);
+            $client->addRole($this);
         }
 
         return $this;
@@ -73,10 +73,7 @@ class TableClient
     {
         if ($this->clients->contains($client)) {
             $this->clients->removeElement($client);
-            // set the owning side to null (unless already changed)
-            if ($client->getTableClient() === $this) {
-                $client->setTableClient(null);
-            }
+            $client->removeRole($this);
         }
 
         return $this;

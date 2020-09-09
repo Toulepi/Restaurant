@@ -20,14 +20,14 @@ class Client
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=150)
+     * @ORM\Column(type="string", length=255)
      */
-    private $nomClient;
+    private $nom_client;
 
     /**
-     * @ORM\Column(type="string", length=150)
+     * @ORM\Column(type="string", length=255)
      */
-    private $prenomClient;
+    private $prenom_client;
 
     /**
      * @ORM\Column(type="string", length=100)
@@ -35,34 +35,40 @@ class Client
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=50)
      */
     private $mdp;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $numTel;
+    private $num_tel;
 
     /**
-     * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="client")
+     * @ORM\OneToMany(targetEntity=Commande::class, mappedBy="client", orphanRemoval=true)
+     */
+    private $commande;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=TableClient::class, inversedBy="clients")
+     */
+    private $table_client;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="client", orphanRemoval=true)
      */
     private $commentaire;
 
     /**
-     * @ORM\ManyToOne(targetEntity=TableClient::class, inversedBy="client")
+     * @ORM\ManyToMany(targetEntity=Role::class, inversedBy="clients")
      */
-    private $tableClient;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Commande::class, mappedBy="client")
-     */
-    private $commande;
+    private $role;
 
     public function __construct()
     {
-        $this->commentaire = new ArrayCollection();
         $this->commande = new ArrayCollection();
+        $this->commentaire = new ArrayCollection();
+        $this->role = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -72,24 +78,24 @@ class Client
 
     public function getNomClient(): ?string
     {
-        return $this->nomClient;
+        return $this->nom_client;
     }
 
-    public function setNomClient(string $nomClient): self
+    public function setNomClient(string $nom_client): self
     {
-        $this->nomClient = $nomClient;
+        $this->nom_client = $nom_client;
 
         return $this;
     }
 
     public function getPrenomClient(): ?string
     {
-        return $this->prenomClient;
+        return $this->prenom_client;
     }
 
-    public function setPrenomClient(string $prenomClient): self
+    public function setPrenomClient(string $prenom_client): self
     {
-        $this->prenomClient = $prenomClient;
+        $this->prenom_client = $prenom_client;
 
         return $this;
     }
@@ -118,14 +124,57 @@ class Client
         return $this;
     }
 
-    public function getNumTel(): ?int
+    public function getNumTel(): ?string
     {
-        return $this->numTel;
+        return $this->num_tel;
     }
 
-    public function setNumTel(?int $numTel): self
+    public function setNumTel(?string $num_tel): self
     {
-        $this->numTel = $numTel;
+        $this->num_tel = $num_tel;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Commande[]
+     */
+    public function getCommande(): Collection
+    {
+        return $this->commande;
+    }
+
+    public function addCommande(Commande $commande): self
+    {
+        if (!$this->commande->contains($commande)) {
+            $this->commande[] = $commande;
+            $commande->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): self
+    {
+        if ($this->commande->contains($commande)) {
+            $this->commande->removeElement($commande);
+            // set the owning side to null (unless already changed)
+            if ($commande->getClient() === $this) {
+                $commande->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getTableClient(): ?TableClient
+    {
+        return $this->table_client;
+    }
+
+    public function setTableClient(?TableClient $table_client): self
+    {
+        $this->table_client = $table_client;
 
         return $this;
     }
@@ -161,44 +210,27 @@ class Client
         return $this;
     }
 
-    public function getTableClient(): ?TableClient
-    {
-        return $this->tableClient;
-    }
-
-    public function setTableClient(?TableClient $tableClient): self
-    {
-        $this->tableClient = $tableClient;
-
-        return $this;
-    }
-
     /**
-     * @return Collection|Commande[]
+     * @return Collection|Role[]
      */
-    public function getCommande(): Collection
+    public function getRole(): Collection
     {
-        return $this->commande;
+        return $this->role;
     }
 
-    public function addCommande(Commande $commande): self
+    public function addRole(Role $role): self
     {
-        if (!$this->commande->contains($commande)) {
-            $this->commande[] = $commande;
-            $commande->setClient($this);
+        if (!$this->role->contains($role)) {
+            $this->role[] = $role;
         }
 
         return $this;
     }
 
-    public function removeCommande(Commande $commande): self
+    public function removeRole(Role $role): self
     {
-        if ($this->commande->contains($commande)) {
-            $this->commande->removeElement($commande);
-            // set the owning side to null (unless already changed)
-            if ($commande->getClient() === $this) {
-                $commande->setClient(null);
-            }
+        if ($this->role->contains($role)) {
+            $this->role->removeElement($role);
         }
 
         return $this;
