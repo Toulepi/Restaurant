@@ -28,11 +28,15 @@ class ProduitCrudController extends AbstractCrudController
         $descrip = TextEditorField::new('description','Description');
         $updateAt = DateTimeField::new('updatedAt','Date Mise à jour');
 
+
         $imageFile = ImageField::new("imageFile")->setFormType(VichImageType::class);
         $imageName =  ImageField::new('imgName_produit','Image')->setBasePath('img/produits');
 
+        //$imageFile = ImageField::new("imageFile")->setFormType(VichImageType::class);
+        //$fichier =  ImageField::new('imgName_produit','Image1')->setBasePath('img/produits');
+
         $champs = [
-            $nomProduit, $nomCatg, $prixProduit,$descrip, $updateAt
+            $nomProduit, $nomCatg, $prixProduit,$descrip //,$updateAt
         ];
 
         if (Crud::PAGE_INDEX === $pageName || Crud::PAGE_DETAIL === $pageName) {

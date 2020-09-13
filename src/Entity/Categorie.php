@@ -25,22 +25,17 @@ class Categorie
     private $nom_catg;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $slug;
-
-    /**
      * @ORM\OneToMany(targetEntity=Produit::class, mappedBy="categorie")
      */
     private $produit;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="parent")
+     * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="sous_catg")
      */
     private $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity=Categorie::class, mappedBy="sous_catg")
+     * @ORM\OneToMany(targetEntity=Categorie::class, mappedBy="parent")
      */
     private $sous_catg;
 
@@ -68,17 +63,7 @@ class Categorie
         return $this;
     }
 
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
 
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Produit[]
@@ -111,6 +96,12 @@ class Categorie
         return $this;
     }
 
+
+    public function __toString()
+    {
+        return $this->nom_catg;
+    }
+
     public function getParent(): ?self
     {
         return $this->parent;
@@ -131,31 +122,26 @@ class Categorie
         return $this->sous_catg;
     }
 
-    public function addSousCatg(self $sous_catg): self
+    public function addSousCatg(self $sousCatg): self
     {
-        if (!$this->sous_catg->contains($sous_catg)) {
-            $this->sous_catg[] = $sous_catg;
-            $sous_catg->setParent($this);
+        if (!$this->sous_catg->contains($sousCatg)) {
+            $this->sous_catg[] = $sousCatg;
+            $sousCatg->setParent($this);
         }
 
         return $this;
     }
 
-    public function removeSousCatg(self $sous_catg): self
+    public function removeSousCatg(self $sousCatg): self
     {
-        if ($this->sous_catg->contains($sous_catg)) {
-            $this->sous_catg->removeElement($sous_catg);
+        if ($this->sous_catg->contains($sousCatg)) {
+            $this->sous_catg->removeElement($sousCatg);
             // set the owning side to null (unless already changed)
-            if ($sous_catg->getParent() === $this) {
-                $sous_catg->setParent(null);
+            if ($sousCatg->getParent() === $this) {
+                $sousCatg->setParent(null);
             }
         }
 
         return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->nom_catg;
     }
 }

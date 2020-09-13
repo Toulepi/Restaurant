@@ -27,6 +27,12 @@ class LigneCommande
      */
     private $pourcent_remise;
 
+    public function __construct($quantite, $produit)
+    {
+        $this->quantite=$quantite;
+        $this->produit=$produit;
+    }
+
     /**
      * @ORM\ManyToOne(targetEntity=Commande::class, inversedBy="ligne_commande")
      * @ORM\JoinColumn(nullable=false)
@@ -89,5 +95,17 @@ class LigneCommande
         $this->produit = $produit;
 
         return $this;
+    }
+
+    public function getSousTotal()
+    {
+        //return $this->quantite * $this->getLivre()->getPrix();
+        // to complete
+        return ($this->quantite) * $this->getProduit()->getPrixProduit();
+    }
+
+    public function __toString()
+    {
+        return $this->getProduit()->getNomProduit();
     }
 }

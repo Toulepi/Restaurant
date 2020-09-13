@@ -3,8 +3,6 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Categorie;
-use App\Entity\Commentaire;
-use App\Entity\LigneCommande;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -34,8 +32,6 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Catégorie', 'icon class', Categorie::class);
-        yield MenuItem::linkToCrud('Commentaire', 'icon class', Commentaire::class);
-        yield MenuItem::linkToCrud('Ligne de commande', 'icon class', LigneCommande::class);
+        yield MenuItem::linkToCrud('Catégories', 'fas fa-code-branch', Categorie::class);
     }
 }

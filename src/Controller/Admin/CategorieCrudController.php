@@ -19,8 +19,7 @@ class CategorieCrudController extends AbstractCrudController
     {
         return [
             TextField::new('nom_catg'),
-            AssociationField::new("sous_catg")
+            AssociationField::new("parent")
         ];
     }
-
 }

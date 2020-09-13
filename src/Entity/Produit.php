@@ -7,7 +7,6 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -121,6 +120,7 @@ class Produit
     {
         $this->commentaire = new ArrayCollection();
         $this->ligne_commande = new ArrayCollection();
+        $this->fichier = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -253,5 +253,36 @@ class Produit
     public function __toString()
     {
         return $this->nom_produit;
+    }
+
+    /**
+     * @return Collection|Fichiers[]
+     */
+    public function getFichier(): Collection
+    {
+        return $this->fichier;
+    }
+
+    public function addFichier(Fichiers $fichier): self
+    {
+        if (!$this->fichier->contains($fichier)) {
+            $this->fichier[] = $fichier;
+            $fichier->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFichier(Fichiers $fichier): self
+    {
+        if ($this->fichier->contains($fichier)) {
+            $this->fichier->removeElement($fichier);
+            // set the owning side to null (unless already changed)
+            if ($fichier->getProduit() === $this) {
+                $fichier->setProduit(null);
+            }
+        }
+
+        return $this;
     }
 }
