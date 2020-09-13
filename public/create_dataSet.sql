@@ -16,22 +16,22 @@ use newstyl_db;
 
 /* "Catégorie" */
 
-    insert into categorie (id,parent_id, nom_catg,slug)
-    values (1,null,'Entree/Dessert','entr'),
+    insert into categorie (id,parent_id, nom_catg)
+    values (1,null,'Entree/Dessert'),
 
-           (2,null,'Plats','plt'),
-               (3,2,'Plats Traditionnels','plt_tr'),
-               (4,2,'Grillades','grll'),
+           (2,null,'Plats'),
+               (3,2,'Plats Traditionnels'),
+               (4,2,'Grillades'),
 
-           (5,null,'Accompagnements','compl'),
+           (5,null,'Accompagnements'),
 
-           (6,null,'Boissons','boiss'),
-               (7,6,'Boissons Alcoolisées','boiss_alc'),
-                   (8,7,'Champagnes & Whisky','champ_whisk'),
-                   (9,7,'Bières','beer'),
-                   (10,7,'Vins','vin'),
+           (6,null,'Boissons'),
+               (7,6,'Boissons Alcoolisées'),
+                   (8,7,'Champagnes & Whisky'),
+                   (9,7,'Bières'),
+                   (10,7,'Vins'),
 
-               (11,6,'Boissons Sans Alcool','boiss_sans_alc');
+               (11,6,'Boissons Sans Alcool');
 
 /* "Produits" */
 
@@ -137,9 +137,9 @@ values (1,'cmd01','9B rue de la Sablière,Asnieres',3,'2020-08-18'),
 /* "Rôle Client" */
 
     insert into client_role (client_id,role_id)
-    values (1,1),
+    values (1,2),
            (2,3),
-           (3,2),
+           (3,3),
            (4,2);
 
 
