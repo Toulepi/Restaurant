@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registration{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-8"><br>
+            <form>
+                <input type="radio" id="male" name="gender" value="male">
+                <label for="male">Monsieur</label>
+                <input type="radio" id="female" name="gender" value="female">
+                <label for="female">Madame</label><br>
+                <div class="row">
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Votre prenom">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Votre nom">
+                    </div>
+                </div> <br>
+
+                <div class="row">
+                    <div class="col">
+                        <input type="email" class="form-control" placeholder="Votre email">
+                    </div>
+                    <div class="col">
+                        <input type="password" class="form-control" placeholder="Mot de passe">
+                    </div>
+                </div>
+                <div class="col">
+                    <input type="" class="form-control" placeholder="numéro téléphone">
+                </div><br>
+
+                <button type="submit" class="btn btn-primary" href="compte_connexion_actif">Envoyer</button>
+
+            </form>
+        </div>
+
+    </div>
+
+{% endblock %}
+

@@ -24,7 +24,7 @@ class NewStylController extends AbstractController
      * @param AppService $service
      * @return Response
      */
-    public function accueil(ProduitRepository $produitRepository,CategorieRepository $categorieRepository, AppService $service)
+    public function accueil(ProduitRepository $produitRepository, CategorieRepository $categorieRepository, AppService $service)
     {
         $produit = $produitRepository->findAll();
         $categorie = $categorieRepository->findAll();
@@ -32,7 +32,8 @@ class NewStylController extends AbstractController
         return $this->render(
             "NewStyl/accueil.html.twig",
             [
-                'categorie'=>$categorie,
+                'titre_page' => $service->getTitre("Bar Restaurant"),
+                'categorie' => $categorie,
                 'produit' => $produit,
                 'lignesCmds' => $service->contenuDuPanier(),
                 'total' => $service->getTotalPanier()
@@ -40,29 +41,43 @@ class NewStylController extends AbstractController
     }
 
     /**
+     *
      * @return Response
-     * @Route ("/login", name="login")
      */
-    public function login()
+    public function login(AppService $service)
     {
-        return $this->render("NewStyl/login.html.twig");
+        return $this->render(
+            "User/login1.html.twig",
+            [
+                'lignesCmds' => $service->contenuDuPanier(),
+                'total' => $service->getTotalPanier()
+            ]);
     }
 
     /**
      * @return Response
-     * @Route ("/register", name="register")
      */
-    public function register()
+    public function register(AppService $service)
     {
-        return $this->render("NewStyl/register.html.twig");
+        return $this->render(
+            "User/register1.html.twig",
+            [
+                'lignesCmds' => $service->contenuDuPanier(),
+                'total' => $service->getTotalPanier()
+            ]);
     }
 
     /**
      * @return Response
      * @Route ("/panier", name="panier")
      */
-    public function panier()
+    public function panier(AppService $service)
     {
-        return $this->render("NewStyl/panier.html.twig");
+        return $this->render(
+            "Panier/panier.html.twig",
+            [
+                'lignesCmds' => $service->contenuDuPanier(),
+                'total' => $service->getTotalPanier()
+            ]);
     }
 }

@@ -1,0 +1,46 @@
+<form method="post" >
+    {% if error %}
+        <div class="alert alert-danger">
+            <div class="callout alert">
+                <span>{{ error.messageKey|trans(error.messageData, 'security') }}</span>
+            </div>
+        </div>
+    {% endif %}
+
+    <fieldset class="fieldset">
+        <legend>Entrez vos informations de connexion</legend>
+        <div class="cell">
+            <label>Email
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
+                       placeholder="Entrez votre email" required autofocus>
+            </label>
+        </div>
+        <div class="cell">
+            <label> Mot de passe
+                <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Votre mot de passe" required>
+            </label>
+        </div>
+        <div>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+        </div>
+        <div class="cell">
+            <input id="checkbox" type="checkbox" name="_remember_me" />
+            <label for="checkbox">Remenber me </label>
+        </div>
+        <div>
+            <button class="btn btn-lg btn-primary" type="submit">Valider</button>
+        </div>
+    </fieldset>
+
+    {#{% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}#}
+
+</form>
+
+
+
+
+

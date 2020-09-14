@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Login Form {% endblock %}
+
+{% block body %}
+
+    <body>
+         <div class="row">
+            <div class="col-8"><br>
+                <form>
+                    <div class="col">
+                        <input type="email" class="form-control" placeholder="Votre email">
+                    </div>
+                    <div class="col">
+                        <input type="password" class="form-control" placeholder="Mot de passe">
+                    </div>
+                    <button type="submit" class="btn btn-primary" href="{{ path('newstyl_accueil') }}">Envoyer</button>
+                </form>
+            </div>
+
+        </div>
+    </body>
+
+{% endblock %}
+

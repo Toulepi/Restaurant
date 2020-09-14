@@ -26,9 +26,11 @@ class PanierController extends AbstractController
         //dd($contenuDuPanier);
 
         return $this->render(
-            'NewStyl/panier.html.twig',
+            'Panier/panier.html.twig',
             [
                 'controller_name' => 'PanierController',
+                'lignesCmds' => $service->contenuDuPanier(),
+                'total' => $service->getTotalPanier()
             ]
         );
     }
