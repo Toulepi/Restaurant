@@ -2,12 +2,13 @@
 
 namespace App\Security;
 
-use App\Repository\UserRepository;
+use App\Repository\ClientRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -17,13 +18,19 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
+/**C'est une classe gardienne, encore appelée classe Listener, par défaut elle s'exécute avant tout autre chose dans l'appli
+ * Class LoginFormAuthenticator
+ * @package App\Security
+ */
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
     use TargetPathTrait;
+    public const LOGIN_ROUTE = 'app_login';
+
     /**
-     * @var UserRepository
+     * @var ClientRepository
      */
-    private $userRepository;
+    private $clientRepository;
     /**
      * @var RouterInterface
      */
@@ -39,14 +46,14 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     /**
      * LoginFormAuthenticator constructor.
-     * @param UserRepository $userRepository
+     * @param ClientRepository $clientRepository
      * @param RouterInterface $router
      * @param CsrfTokenManagerInterface $csrfTokenManager
      * @param UserPasswordEncoderInterface $passwordEncoder
      */
-    public function __construct(UserRepository $userRepository, RouterInterface $router, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(ClientRepository $clientRepository,RouterInterface $router, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder)
     {
-        $this->userRepository = $userRepository;
+        $this->clientRepository = $clientRepository;
         $this->router = $router;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordEncoder = $passwordEncoder;
@@ -57,14 +64,14 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     {
         //die("notre process de connexion démarre ici !!!");
 
-        // dans la requète on récupère les attributs qui ont une route 'app_login'
+        // dans les requètes de type "POST", on récupère les attributs qui ont la route 'app_login'
         return ($request->attributes->get('_route') === "app_login") && ($request->ismethod("POST"));
     }
 
     //  cette méthode est déclenchée si return ci-dessus vaut 'true'
     public function getCredentials(Request $request)
     {
-        //dd($request->request->all());
+        //dd($request->request->all());  //récupération de la requète avec tout ce qu'elle contient
         $credentials = [
             "email" => $request->request->get('email'),
             "password" => $request->request->get('password'),
@@ -76,7 +83,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             Security::LAST_USERNAME,
             $credentials['email']
         );
-
         return $credentials;
     }
 
@@ -84,35 +90,44 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         //dd($credentials);
-        $token = new CsrfToken('authenticate', $credentials['_csrf_token']);
+        $token = new CsrfToken('authenticate', $credentials['_csrf_token']);  // instanciation du token qui a été soumis
 
         if (!$this->csrfTokenManager->isTokenValid($token)) {
             throw new InvalidCsrfTokenException();
         }
 
         // retourne un User via le "UserRepository"
-        return $this->userRepository->findOneBy(['email' => $credentials['email']]); // recherche par 'email' et <lève une exception> (erreur) s'il n'y rien
+        $user = $this->clientRepository->findOneBy(['email' => $credentials['email']]); // recherche par 'email' et <lève une exception> (erreur) s'il n'y a rien
+        if (!$user) {
+            // fail authentication with a custom error
+            throw new CustomUserMessageAuthenticationException('Email non reconnu.');
+
+        }
+        return $user;
     }
 
     // Vérification d'authentification
     public function checkCredentials($credentials, UserInterface $user)
     {
-        //dump($credentials);
-        // dd($user);
-        //return $this->passwordEncoder->isPasswordValid($user,$credentials['password']);  // permet de comparer le "password" encoder en BDD avec celui insérer par le User
+        dump($credentials);
+        dd($user);
+        return $this->passwordEncoder->isPasswordValid($user,$credentials['password']);  // permet de comparer le "mdp" encoder en BDD avec celui insérer par le User
 
-        if ( ($credentials['password']) === ($user->getPassword()) ){
-            return true;
-        }   else {
-            return false;
-        }
+            /*
+             if (($credentials['password']) === ($user->getPassword())) {
+               echo ("mot de passe correct");
+                return true;
+            } else {
+                return false;
+            }
+            */
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {
-        // dd("Authentification réussie !!!");
-        $cheminCible = $this->getTargetPath($request->getSession(),$providerKey);  // mémorisation de l'ancienne Route
-        if ($cheminCible){
+         //dd("Authentification réussie !!!");
+        $cheminCible = $this->getTargetPath($request->getSession(), $providerKey);  // mémorisation de l'ancienne Route
+        if ($cheminCible) {
             return new RedirectResponse($cheminCible);
         }
 
@@ -120,7 +135,10 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         return new RedirectResponse($this->router->generate('newstyl_accueil'));
     }
 
-    // Cette méthode est appelée à chaque fois qu'il y aura un problème dans l'exécution séquentielle des méthodes ci-dessus
+    /**Cette méthode est appelée à chaque fois qu'il y aura un problème dans l'exécution séquentielle des méthodes de la classe "LoginFormAuthenticator".
+     * Elle doit être définie
+     * @return string
+     */
     protected function getLoginUrl()
     {
         return $this->router->generate('app_login');

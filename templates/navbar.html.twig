@@ -1,101 +1,115 @@
-{% extends 'base.html.twig' %}
-
-{% block body %}
-
-    <header>
-        <!--barre de navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand"></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-
-                <div class="navbar-nav  mt-2 mt-lg-0">
-                    <a class="nav-link nav-item" href="{{ path('newstyl_accueil') }}">LeNewStyl <i class="fas fa-utensils"></i></a>
-                </div>
-                <div id="search" class="mr-auto ">
-                    <form class="my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Rechercher produit"
-                               aria-label="Search">
-                        {# <button type="submit"><i class="fas fa-search"></i></button> #}
-                    </form>
-                </div>
-                <div class="navbar-nav form-inline my-2 my-lg-0">
-                    <a class="nav-item nav-link" href="{{ path('app_login') }}"><i class="far fa-user"></i> Login </a>
-                    <a class="nav-item nav-link" href="{{ path('newstyl_accueil') }}"><i class="far fa-user"></i> Logout </a>
-                    <a class="nav-item nav-link" href="#"><i class="fas fa-cash-register"></i> Register </a>
-                    <a class="nav-item nav-link" href="{{ path('newstyl_panier') }}"><i class="fas fa-shopping-cart"></i> Panier </a>
-
-                    <ul class="vertical panier" >
-                       <table class="tabPanier">
-                           <thead>
-                           <tr>
-                               <th>Produits</th>
-                               <th>Quantité</th>
-                               <th>Sous total</th>
-                               <th>Actions</th>
-                           </tr>
-                           </thead>
-                           <tbody>
-                               {% for lc in lignesCmds %}
-                                   <tr>
-                                       <td>{{ lc.ligne_cmd }}</td>
-                                       <td class="align-center"> {{ lc.ligne_cmd.quantite }} </td>
-                                       <td class="align-right">
-                                           <strong>{{ lc.ligne_cmd.sousTotal }} €</strong>
-                                       </td>
-                                       <td class="text-right">
-                                           <a class="panierActionSupprimer" href="{{ path('panier_supprimer',{id:lc.ligne_cmd.produit.id}) }}">
-                                               <strong><i class="fas fa-trash-alt fa-lg"></i> </strong>
-                                           </a>
-                                       </td>
-                                   </tr>
-                                {% else %}
-                                   <tr>
-                                       <td colspan="4">Le panier est vide</td>
-                                   </tr>
-                               {% endfor %}
-
-                               {% if total > 0 %}
-                                   <tr class="total">
-                                       <td colspan="2" class="text-right"><strong>TOTAL</strong></td>
-                                       <td class="text-right primary"><strong>{{ total }}</strong></td>
-                                       <td class="text-right primary"></td>
-                                   </tr>
-                               {% endif %}
-                           </tbody>
-                       </table>
-                    </ul>
-                </div>
-
+<!--barre de navigation-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light animate__animated animate__fadeInDown">  {# 'my' marge selon l'axe 'y' et  'mx' marge selon l'axe 'x' #}
+    <a class="navbar-brand logo" title="Accueil" href="{{ path('newstyl_accueil') }}">
+        LeNewStyl <i class="fas fa-utensils"> </i>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#" title="06 69 69 76 69"> <i class="fas fa-mobile-alt"> Contact</i></a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0 mr-auto" action="{{ path('newstyl_search') }}">
+            <div class="form-group">
+                <label for="search">
+                    <input class="form-control mr-sm-2 far fa-search" type="text" name="search" placeholder="Recherche produit" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search "> ..</i></button>
+                </label>
             </div>
+        </form>
+        <ul class="navbar-nav">
+            {% if is_granted("ROLE_ADMIN") %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('admin') }}" target="_blank"> <i class="fas fa-tachometer-alt"> Dashboard</i></a>
+                </li>
+            {% endif %}
 
-            <div class="top-bar-right">
-                <ul class="dropdown menu" data-dropdown-menu>
-                    {% if is_granted("ROLE_USER") %}
-                    <li class="has-submenu">
-                        <a href="#" style="margin-right: 7rem"> Profile</a>
-                        <ul class="submenu menu vertical" data-submenu>
-                            <li>
-                                <a href="{{ path('app_mon_compte') }}" style="margin-right: 7rem">compte</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('app_logout') }}" style="margin-right: 7rem">Logout</a>
-                            </li>
-                        </ul>
-                    </li>
-                    {% else %}
-                    <li>
-                        <a href="{{ path('app_login') }}" style="margin-right: 7rem">Login</a>
-                    </li>
-                    {% endif %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="{{ path('newstyl_panier') }}" id="navbarDropdown"
+                   role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-shopping-cart"></i> Panier
+                </a>
+
+                <ul class="nav-item dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item nav-link" href="{{ path('newstyl_panier') }}" target="_blank">
+                        Contenu Panier
+                    </a>
+                        {#  <div class="dropdown-item dropdown-divider"></div> #}
+                    <a class="dropdown-item nav-link" href="#">
+                        <table class="table table-hover">
+                            <thead class="thead-light">
+                            <tr>
+                                <th>Produits</th>
+                                <th>Image</th>
+                                <th>Quantité</th>
+                                <th>Prix U</th>
+                                <th>Sous total</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for lc in lignesCmds %}
+                                <tr >
+                                    <td>{{ lc.ligne_cmd }}</td>
+                                    <td><img class="img-thumbnail" src="{{  'img/produits/'| imagine_filter('tiny')   }}{{ lc.ligne_cmd.Produit.imgNameProduit }}" alt="img produit"></td>
+                                    <td class="align-center"> {{ lc.ligne_cmd.quantite }} </td>
+                                    <td class="align-center"> {{ lc.ligne_cmd.Produit.prixProduit }} </td>
+                                    <td class="align-right">
+                                        <strong>{{ lc.ligne_cmd.sousTotal }} €</strong>
+                                    </td>
+                                    <td class="text-right">
+                                        <a class="panierActionSupprimer"
+                                           href="{{ path('panier_supprimer',{id:lc.ligne_cmd.produit.id}) }}">
+                                            <strong><i class="fas fa-trash-alt fa-lg"></i> </strong>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="4">Le panier est vide</td>
+                                </tr>
+                            {% endfor %}
+
+                            {% if total > 0 %}
+                                <tr class="total">
+                                    <td colspan="2" class="text-right"><strong>TOTAL</strong></td>
+                                    <td class="text-right primary"><strong>{{ total }} €</strong></td>
+                                    <td class="text-right primary"></td>
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </a>
                 </ul>
-            </div>
-
-        </nav>
-        <!--fin de la barre nav-->
-    </header>
-
-{% endblock %}
+            </li>
+            {% if is_granted("ROLE_USER") %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
+                        Profil
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ path('app_mon_compte') }}"><i class="far fa-user"> Compte</i></a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ path('app_logout') }}"> <i class="fas fa-sign-out-alt"> Logout</i></a>
+                    </div>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a href="{{ path('app_login') }}" class="nav-link nav-item">
+                        <i class="fas fa-running"> Login</i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-item nav-link form-inline" href="{{ path('app_register') }}">
+                        <i class="fas fa-user-plus"> </i> Register
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+<!--fin barre de navigation -->

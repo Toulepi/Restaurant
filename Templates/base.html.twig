@@ -1,34 +1,35 @@
 <!DOCTYPE html>
-
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>{% block title %}Bienvenue!{% endblock %}</title>
+        <title>{% block title %} Bar Restaurant{% endblock %}</title>
 
         {% block stylesheets %}
             <link rel="shortcut icon" href="{{ asset('img/logo.svg') }}" type="image/x-icon">
             <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
+
             <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
         {% endblock %}
     </head>
 
     <body>
-
-        <div class="container-fluid">
+        <div class="container">
+            {{ include('navbar.html.twig') }}
             {% block body %}
-{#                {{ include('titre.html.twig') }}#}
-                {{ include('navbar.html.twig') }}
 
             {% endblock %}
+            {{ include('footer.html.twig') }}
         </div>
 
         {% block javascripts %}
-            <script src="https://kit.fontawesome.com/609c0c060b.js" crossorigin="anonymous"></script>
             <script src="{{ asset('js/jquery.js') }}"></script>
             <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
             <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+            <script defer src="https://kit.fontawesome.com/609c0c060b.js"></script>
+            <script src="{{ asset('js/script')}}"></script>
         {% endblock %}
     </body>
-
 </html>

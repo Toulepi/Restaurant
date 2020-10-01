@@ -1,17 +1,200 @@
 @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Mali&family=Piedra&display=swap');
-
 @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
 
+            /* GENERAL */
+            /*============*/
+
+body{
+    background-color: lightgrey!important;
+    /*background-color: #D1AA86!important;*/
+}
 *{
     box-sizing: border-box;
-    text-align: justify;
-    font-family: 'Piedra', cursive;
+    font-family: 'Mali', cursive;
+    text-overflow: ellipsis;
 }
-
-#search{
+li{
+    list-style-type: none!important;
+}
+.h-60
+{
+    height:60%!important
+}
+.img-large{
+    max-width: 80rem;  /* 500px */
+    max-height: 10rem;
+}
+.img-medium{
+    max-width: 25em;  /* 500px */
+    max-height: 20em;
+}
+.img-tiny{
+    max-width: 8rem!important;  /* 500px */
+    max-height: 5rem!important;
+}
+.table{
     text-align: center;
-    width: 70%;
+}
+.bg_image{
+    background-image: url("/public/img/slide2.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    padding: 1rem;
+    border-radius: .3rem;
+    background-color: whitesmoke;
+}
+
+                /*  CONTENT */
+                /*=========*/
+
+#aside_nav{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+nav #reservation{
+    text-align: right;
+    color: darkslategray;
+    font-weight: bold
+}
+#navbarSupportedContent{
+    padding: .4em;
+}
+
+fieldset{
+    border: .1em solid whitesmoke;
+    /*border-radius: 11px;*/
+}
+fieldset .card-body{
+    margin: .3rem auto;
+    text-align: center;
+}
+
+.card_block{
+    margin-bottom: 1rem;
+}
+
+.profile-card-5{
+    /*margin-top: 1em;*/
+}
+
+.profile-card-5 .btn{
+    border-radius: .2em;
+    text-transform: uppercase;
+    font-size: 1.3em;
+    padding: .2rem 1rem;
+}
+
+.profile-card-5 .card-img{
+    margin:auto;
+    position: relative;
+    top: -.11em;
+    /*top: -2em;*/
+}
+
+.profile-card-5 .card-img img{
+    border-radius: .2em;
+    box-shadow: 0 0 .2em rgba(0,0,0,.7);
+}
+
+.card-body  /* Surcharge du css de la classe de base */
+{
+    /*-ms-flex:1 1 auto;*/
+    flex:1 0 auto!important;
+    /*min-height:1px;*/
+    padding:1.25rem
+}
+
+.card-text{
+   height: 4.5rem;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
+
+.profile-card-5 h4{
+    font-weight: 600 ;
+}
+.profile-card-5 h5{
+    font-weight: 400;
 }
 
 
+#overflow{
+    /*text-overflow: ellipsis;*/
+}
 
+
+blockquote{
+    width: 50px;
+    overflow: hidden;
+    white-space: nowrap;
+    display: block;
+    text-overflow: ellipsis;   /* pointillés */
+    /*transition: height .3s,width .4s .3s;*/
+}
+blockquote:hover {
+    height: 100%;
+    width: 100%;
+    white-space: normal;
+    transition: height .4s .4s, width .4s;
+    text-align: justify;
+}
+
+.profile-card-5 p{
+    font-weight: 100;
+    font-size: 1em;
+}
+
+.card-img{
+    margin: auto;
+    position: relative;
+    top: .3rem;
+    border-radius: .2rem;
+}
+
+                /*  FOOTER */
+
+#footerpad{
+    /*background-color: #9f5811!important;*/
+}
+
+
+                /* MEDIA QUERIES */
+
+/* On screens that are 600px or less, set the background color to olive */
+@media screen and (max-width: 975px) {
+    #aside_nav
+    {
+       width: 100%!important;
+        text-align: center;
+    }
+
+}
+
+@media screen and (max-width: 750px) {
+    #login_form {
+        width: 100% !important;
+    }
+    #register_form{
+        width: 100%!important;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .card_block {
+        width: 100% !important;
+        margin-bottom: 1em;
+        margin-left: 0!important;
+        margin-right: 0!important;
+    }
+    .profile-card-5{
+        margin: 0!important;
+    }
+    .card-img{
+        margin-right: 0!important;
+        margin-left: 0!important;
+    }
+
+}

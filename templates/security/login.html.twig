@@ -4,7 +4,11 @@
 
 {% block body %}
     {{ parent() }}
-    {{ include('security/_login.html.twig') }}
+
+    <div id="login_form" style="margin: 3rem auto" class="w-50" >
+        {{ include('security/_login.html.twig') }}
+    </div>
+
 {% endblock %}
 
 

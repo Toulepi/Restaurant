@@ -7,13 +7,6 @@ use newstyl_db;
     insert into table_client (id, num_table)
     values (1,1),(2,2),(3,3),(4,4),(5,5),(6,6),(7,7),(8,8),(9,9),(10,10),(11,11),(12,12);
 
-/* "Rôle du User" */
-
-    insert into role (id,num_role)
-    values (1,'Internaute'),
-       (2,'Client'),
-       (3,'Admin');
-
 /* "Catégorie" */
 
     insert into categorie (id,parent_id, nom_catg)
@@ -39,58 +32,90 @@ use newstyl_db;
     insert into produit(id,categorie_id, nom_produit, prix_produit,description,img_name_produit,updated_at)
     values (1,1,'Safous',5,'C\'est un légume & qui peut aussi être considéré comme un fruit','safous.jpg',current_timestamp());
 
-    /* "Plat" */
+    /* "Plats" */
 
         /* "Plats traditionnels" */
         insert into produit(id,categorie_id, nom_produit, prix_produit,description,img_name_produit,updated_at)
-        values (2,3,'Ndolè',20,'Met originaire du cameroun, attention si vous le mangez vous ne pourrez plus vous en passer','ndole.jpg',current_timestamp),
-               (3,3,'Taro',25,'Spécialité camerounaise, ce plat à des vertues médicamenteuses; en effet elle possède de nombreux condiments naturels','taro.jpg',current_timestamp),
-               (4,3,'Eru',20,'Née au sud-ouest du Cameroun, le eru est devenu un plat national et maintenant va à la conquète du monde','eru.jpg',current_timestamp),
-               (5,3,'Poulet DG',25,'Met originaire du cameroun il est fait à base de la viande de poulet et de la banane plantain, attention si vous le mangez vous ne pourrez plus vous en passer','pouletDG.jpg',current_timestamp),
+        values (2,3,'Taro',15,'Spécialité camerounaise, ce plat à des vertues médicamenteuses; en effet elle possède de nombreux condiments naturels','taro.jpg',current_timestamp),
+               (3,3,'Ndolè',20,'Met originaire du cameroun, attention si vous le mangez vous ne pourrez plus vous en passer','ndole.jpg',current_timestamp),
+               (4,3,'Folon',15,'','folon.jpg',current_timestamp),
+               (5,3,'Eru',20,'Née au sud-ouest du Cameroun, le eru est devenu un plat national et maintenant va à la conquète du monde','eru.jpg',current_timestamp),
+               (6,3,'Sauce gombo',15,'','gombo.jpg',current_timestamp),
+               (7,3,'Pile Pommes Haricots',15,'','pile.jpg',current_timestamp),
+               (8,3,'Koki',15,'','koki.jpg',current_timestamp),
+               (9,3,'Sauce tomate',15,'','sauce_tomate.jpg',current_timestamp),
+               (10,3,'Poulet DG',25,'Met originaire du cameroun il est fait à base de la viande de poulet et de la banane plantain, attention si vous le mangez vous ne pourrez plus vous en passer','pouletDG.jpg',current_timestamp),
 
         /* Grillades */
-           (6,4,'Maquereau Braisé',20,'Encore appelé Oya Oya, cette race de maquereau est très bon dans la bouche','maquereau.jpg',current_timestamp),
-           (7,4,'Bar braisé',25,'Poisson bar fait au four, assh le goût de ça','bar.jpg',current_timestamp),
-           (8,4,'Sole braisé',50,'Poisson des chefs d\'Etat c\'est un vrai délicé accompagné avec de l\'aloco','sole.jpg',current_timestamp),
-           (9,4,'Porc Braisé',10,'Cotes de porc assaisonnés et fait au four','porc.jpg',current_timestamp),
-           (10,4,'Ailes braisées',10,'Ailes de poulet marinées et fait à feu doux au four','ailesPoulet.jpg',current_timestamp);
+               (11,4,'Cuisses de Poulet Braisées',10,'','cuisses.jpg',current_timestamp),
+               (12,4,'Ailes de Poulet Frits',10,'','ailes.jpg',current_timestamp),
+               (13,4,'Porc Braisé',10,'','porc.jpg',current_timestamp),
+               (14,4,'Bar braisé',25,'Poisson bar fait au four, assh le goût de ça','bar.jpg',current_timestamp),
+               (15,4,'Carpe braisée',25,'','carpe.jpg',current_timestamp),
+               (16,4,'Sole braisée',25,'Poisson des chefs d\'Etat c\'est un vrai délice','sole.jpg',current_timestamp),
+               (17,4,'Maquereau Braisé',20,'Encore appelé Oya Oya, cette race de maquereau est très bon dans la bouche','maquereau.jpg',current_timestamp),
+               (18,4,'Soya',20,'Viande de beouf braisée au four.','soya.jpg',current_timestamp),
+               (19,4,'Brochettes',20,'','brochette.jpg',current_timestamp);
 
-        /* "Accompagnements" */
+        /* "Accompagnements / Supplément" */
 
         insert into produit (id, categorie_id, nom_produit, prix_produit, description, img_name_produit, updated_at)
-        values (11,5,'Aloko',3,'','aloko.jpg',current_timestamp),
-               (12,5,'Plantains tapés',3,'','pltnTape.jpg',current_timestamp),
-               (13,5,'Plantains bouillis',3,'','pltnBouill.jpg',current_timestamp),
-               (14,5,'riz',3,'riz cuit à la vapeur','riz.jpg',current_timestamp),
-               (15,5,'bâtons',3,'Bâtons de manioc bouillis','baton.jpg',current_timestamp);
+        values  (20,5,'Plantains tapés',3,'','plantain_tape.jpg',current_timestamp),
+                (21,5,'Plantains bouillis',3,'','plantain_bouilli.jpg',current_timestamp),
+                (22,5,'riz',3,'riz cuit à la vapeur','riz.jpg',current_timestamp),
+                (23,5,'Bobolo',3,'Bâtons de manioc bouillis','bobolo.jpg',current_timestamp),
+                (24,5,'Aloko',3,'','aloko.jpg',current_timestamp);
 
-    /* "Boisson" */
-
-         /* Sans alcool */
-    insert into produit (id,categorie_id, nom_produit, prix_produit,description,img_name_produit,updated_at)
-    values  (16,11,'Eau 1.5 L',4,'eau en bouteille de 1,5 litre','eau.jpg',current_date),
-            (17,11,'Eau 50 cl',2,'eau en bouteille de 50 centilitres','eau1.jpg',current_date),
-            (18,11,'Foléré',3,'encore appelée jus d\'oseil elle est portée à ébullition puis refroiduit lors de sa préparation','folere.jpg',current_date),
-            (19,11,'Djindja',5,'jus de gingembre','djindja.jpg',current_date),
-            (20,11,'Top Anana',5,'jus provenant des brasseries du Cameroun','anana.jpg',current_date),
-
-        /* Bières */
-            (21,9,'Matango',5,'vin de palme','matango.jpg',current_date),
-            (22,9,'Desperados',7,'','dsp.jpg',current_date),
-            (23,9,'Leffe',8,'','leffe.jpg',current_date),
+    /* "Boissons" */
 
         /* Liqueurs (Whisky & Champagnes) */
-            (24,8,'Chivas 12 ans',60,'','12ans.jpg',current_date),
-            (25,8,'Chivas 18 ans',80,'','18ans.jpg',current_date),
-            (26,8,'Dom Perignon',300,'','perignon.jpg',current_date);
+        insert into produit (id,categorie_id, nom_produit, prix_produit,description,img_name_produit,updated_at)
+        values  (25,8,'Ruinart Blanc',120,'','ruinart_blanc.jpg',current_date),
+                (26,8,'Ruinart Brut',80,'','ruinart_brut.jpg',current_date),
+                (27,8,'Ruinart Rosé',60,'','ruinart_rose.jpg',current_date),
+                (28,8,'Veuve Cliquot',60,'','veuve.jpg',current_date),
+                (29,8,'Moët & Chandon',50,'','moet.jpg',current_date),
+                (30,8,'Dom Perignon',300,'','perignon.jpg',current_date),
+                (31,8,'Chivas 18 ans',80,'','18ans.jpg',current_date),
+                (32,8,'Chivas 12 ans',60,'','12ans.jpg',current_date),
+                (33,8,'Black label',60,'','black_label.jpg',current_date),
+                (34,8,'Cardhu 12ans',60,'','cardhu_12ans.jpg',current_date),
+                (35,8,'Baileys',60,'','baileys.jpg',current_date);
+
+        /* Bières */
+        insert into produit (id,categorie_id, nom_produit, prix_produit,description,img_name_produit,updated_at)
+        values   (36,9,'Guinness PM',5,'Petit Modèle de la bière','guiness_pm.jpg',current_date),
+                 (37,9,'Guinness GM',10,'Grand Modèle de la bière','guiness_gm.jpg',current_date),
+                 (38,9,'Heineken',5,'','heineken.jpg',current_date),
+                 (39,9,'Booster',8,'','booster.jpg',current_date),
+                 (40,9,'Desperados',10,'','dsp_gm.jpg',current_date),
+                 (41,9,'Desperados',5,'','dsp_pm.jpg',current_date),
+                 (42,9,'1664',8,'Grand modèle de la 1664','1664_gm.jpg',current_date),
+                 (43,9,'Leffe',8,'Grand modèle de la Leffe','leffe_gm.jpg',current_date);
+
+        /* Vins */
+        insert into produit (id,categorie_id, nom_produit, prix_produit,description,img_name_produit,updated_at)
+        values   (44,10,'Vin',15,'Grand vin au choix à partir de 15 euros','vin.jpg',current_date),
+                 (45,10,'Petit Vin',8,'Petit vin au choix','petit_vin.jpg',current_date),
+                 (46,10,'Côtes de Bergerac',15,'','bergerac.jpg',current_date),
+                 (47,10,'Monbazillac',15,'','monbazillac.jpg',current_date);
+
+
+         /* Sans alcool */
+        insert into produit (id,categorie_id, nom_produit, prix_produit,description,img_name_produit,updated_at)
+        values  (48,11,'Top du Camer',5,'Boisson fabriquée par les brasseries du Cameroun','top.jpg',current_date),
+                (49,11,'Malta Guinness',5,'malta','malta.jpg',current_date),
+                (50,11,'Perrier',3,'','perrier_pm.jpg',current_date),
+                (51,11,'Eau',2,'Eau de source en bouteille de 50 cl','eau_pm.jpg',current_date),
+                (52,11,'Eau',4,'Eau de source en bouteille de 1,5 litre','eau_gm.jpg',current_date);
 
 /* "Client" */
 
-    insert into client (id,table_client_id,nom_client,prenom_client,email, mdp, num_tel)
-    values (1,2,'lastName','firstName','user@domain.cm',1234,'77-23-24-36-36'),
-           (2,4,'Jeatsa','Armel','jeatsa@dwwm.as',1234,'26-36-28-39-20'),
-           (3,4,'Tchinda','Toulépi','toulepi@dwwm.as',1234,'26-36-28-30-20'),
-           (4,3,'Fouajio','Victoire','fouajio@dwwm.as',1234,'27-39-20-21-77');
+    insert into client (id,table_client_id,nom_client,prenom_client,email, password, num_tel,roles)
+    values (1,null,'Kankan','Diakité','kankan@diakite.as','kd123','77-23-24-36-36','[]'),
+           (2,4,'Jeatsa','Armel','jta@dwwm.as','jta123','26-36-28-39-20','[]'),
+           (3,4,'Tchinda','Toulépi','ttf@dwwm.as','$2y$10$y6r6kukb5htFvbsE15nhmeNas9X0l4hn/n2vtHC7adK.02MrLu0oy','26-36-28-30-20','["ROLE_ADMIN"]'),
+           (4,3,'Fouajio','Victoire','ftv@dwwm.as','ftv123','27-39-20-21-77','[]');
 
 /* "Commande" */
 
@@ -133,14 +158,6 @@ values (1,'cmd01','9B rue de la Sablière,Asnieres',3,'2020-08-18'),
     insert into commentaire (id, date_commentaire, contenu,note, client_id,produit_id)
     values (1,'2020-06-15','Tres bon plat, bien cuisiné, bien épicé et très apétissant; je reviendrais dans ce restaurant me régaler.',5,2,10),
        (2,'2018-08-30','Le maquereau est trop bon dans ce resto, vraiment je recommande',5,3,6);
-
-/* "Rôle Client" */
-
-    insert into client_role (client_id,role_id)
-    values (1,2),
-           (2,3),
-           (3,3),
-           (4,2);
 
 
 

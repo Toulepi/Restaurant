@@ -57,6 +57,7 @@ class PanierController extends AbstractController
     public function supprimer(int $id,AppService $service)
     {
         $service->supprimerDuPanier($id);
+
         return $this->redirectToRoute('newstyl_accueil');
     }
 }

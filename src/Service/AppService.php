@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\LigneCommande;
+use App\Repository\CategorieRepository;
 use App\Repository\ProduitRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -24,17 +25,23 @@ class AppService
      * @var ProduitRepository
      */
     private $produitRepository;
+    /**
+     * @var CategorieRepository
+     */
+    private $categorieRepository;
 
     /**
      * AppService constructor.
      *
+     * @param CategorieRepository $categorieRepository
      * @param ProduitRepository $produitRepository
      * @param SessionInterface $session
      */
-    public function __construct(ProduitRepository $produitRepository, SessionInterface $session)
+    public function __construct(CategorieRepository $categorieRepository,ProduitRepository $produitRepository, SessionInterface $session)
     {
         $this->produitRepository = $produitRepository;
         $this->session = $session;
+        $this->categorieRepository = $categorieRepository;
     }
 
     public function capitalize(string $mot)
@@ -56,6 +63,23 @@ class AppService
         return $titre;
     }
 
+    public function getListeCategories($mot)
+    {
+        // Récupération de la liste des catégories en BDD
+        // $donnees = $this->categorieRepository->findAll();
+       // $donnees = $this->categorieRepository->findOneBySomeField($mot);
+        // dd($donnees);
+        //return $donnees;
+
+        /* //Mise en place de la pagination
+            $produits = $this->paginator->paginate(
+                $donnees,
+                $request->query->getInt('page',1),
+                limit:8
+            );
+        */
+    }
+
     public function getListeProduits(Request $request)
     {
         // Récupération de la liste des produits en BDD
@@ -65,7 +89,7 @@ class AppService
         return $donnees;
 
         /* //Mise en place de la pagination
-            $livres = $this->paginator->paginate(
+            $produits = $this->paginator->paginate(
                 $donnees,
                 $request->query->getInt('page',1),
                 limit:8

@@ -1,5 +1,8 @@
 $(document).ready(function(){
 
+    $("#reservation").onclick(function (){
+        $("#reserved").fadeOut();
+    });
 /*
     $(".submenu").hide();
 

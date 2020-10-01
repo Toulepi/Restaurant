@@ -34,16 +34,15 @@ class Commentaire
     private $note;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="commentaire")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $client;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Produit::class, inversedBy="commentaire")
      * @ORM\JoinColumn(nullable=false)
      */
     private $produit;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="commentaire")
+     */
+    private $client;
 
     public function getId(): ?int
     {
@@ -86,18 +85,6 @@ class Commentaire
         return $this;
     }
 
-    public function getClient(): ?Client
-    {
-        return $this->client;
-    }
-
-    public function setClient(?Client $client): self
-    {
-        $this->client = $client;
-
-        return $this;
-    }
-
     public function getProduit(): ?Produit
     {
         return $this->produit;
@@ -110,8 +97,16 @@ class Commentaire
         return $this;
     }
 
-    public function __toString()
+    public function getClient(): ?Client
     {
-        // TODO: Implement __toString() method.
+        return $this->client;
     }
+
+    public function setClient(?Client $client): self
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
 }

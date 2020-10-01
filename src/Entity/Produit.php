@@ -255,34 +255,4 @@ class Produit
         return $this->nom_produit;
     }
 
-    /**
-     * @return Collection|Fichiers[]
-     */
-    public function getFichier(): Collection
-    {
-        return $this->fichier;
-    }
-
-    public function addFichier(Fichiers $fichier): self
-    {
-        if (!$this->fichier->contains($fichier)) {
-            $this->fichier[] = $fichier;
-            $fichier->setProduit($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFichier(Fichiers $fichier): self
-    {
-        if ($this->fichier->contains($fichier)) {
-            $this->fichier->removeElement($fichier);
-            // set the owning side to null (unless already changed)
-            if ($fichier->getProduit() === $this) {
-                $fichier->setProduit(null);
-            }
-        }
-
-        return $this;
-    }
 }

@@ -1,74 +1,93 @@
 {% extends 'base.html.twig' %}
 
-{#{% block title %}LeNewStyl{% endblock %}#}
+ {% block title %}LeNewStyl{% endblock %}
 
 {% block body %}
 
-    {{ parent() }}  {# utilisation de l'héritage avec twig #}
-    <body>
-        <div class="row">
-            <div class="col dropdown">
-                <a class="btn btn-secondary btn-block">
-                    Catalogue
-                </a>
-            </div>
+    {#    {{ parent() }}    utilisation de l'héritage avec twig; affiche d'abord le contenu du "parent" avant d'afficher  #}
 
-            <div class="w-100"></div>
-
-            {% for cat in categorie %}
+        <div class="row my-1">
+            <div id="aside_nav" class="my-3 mx-1 w-25 animate__animated animate__fadeInLeft">
                 <div class="col dropdown">
-                    <div class="dropdown">
-                        <button class="dropdown-item" href="#">{{ cat.nomCatg }} </button>
-                        {#
-                        <div class="dropdown-content">
-                            {% for rub in cat. %}  <!-- Pour chaque catégorie on affiche toutes ses sous-catégories -->
-                                <a href="#" target="_blank">{{ rub.nomCatg }}</a> <!-- path('librairie_rubrique' -->
-                            {% endfor %}
-                        </div>
-                        #}
-
-
+                    <div class="">
+                        <a class="btn btn-secondary btn-block" href="{{ path('newstyl_accueil') }}">
+                            Catégories
+                        </a>
+                        {% for cat in categorie %}
+                            <div class="col dropdown">
+                                <div class="dropdown">
+                                    {# Pour chaque catégorie on veut afficher la liste des produits #}
+                                    {# le formulaire ci-dessous permet de récupérer le nom de la catégories selectionnée par l'internaute #}
+                                    {% if (cat.nomCatg != "Plats")and(cat.nomCatg != "Boissons")and(cat.nomCatg != "Boissons Alcoolisées") %}
+                                        <form action="{{ path('newstyl_search') }}">
+                                            <input class="form-control mr-sm-2 far fa-search" type="hidden"
+                                                   name="search" value="{{ cat.nomCatg }}">
+                                            <button type="submit" class="dropdown-item">{{ cat.nomCatg }} </button>
+                                        </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <hr>
+                        <form action="{{ path('newstyl_search') }}">
+                            <input type="hidden" name="search" value="all">
+                            <button type="submit" class="btn btn-secondary btn-block">Tout les Produits</button>
+                        </form>
                     </div>
                 </div>
+            </div>
+            <div class="w-60">
+                {{ include('carousel.html.twig') }}
+            </div>
+        </div>
+
+        <hr>    {# {{ dump(produit) }}  les produits en BDD #}
+            <section class="bg_image">
+                <h2 class="text-center">Notre sélection</h2>
+            </section>
+        <hr>
+
+        <div class="row">
+            {% for pdt in produit %}
+                {% if( ( pdt.id == 1 ) or (pdt.nomProduit == "Poulet DG" ) or (pdt.nomProduit == "Vin" ) ) %}
+                    <div class="col-md-4 animate__animated animate__fadeInLeft card_block">
+                        <div class="card profile-card-5 mx-4 h-100">
+                            <div class="card-img card-img-block h-60">
+                                <img src="{{ asset('img/produits/') }}{{ pdt.imgNameProduit }}"
+                                     class="card-img-top img-thumbnail h-100" alt="{{ pdt.nomProduit }}"/>
+                            </div>
+                            <div class="card-body mx-2">
+                                <h4 class="card-title">
+                                    {{ pdt.categorie }}
+                                </h4>
+                                <h5 class="card-title">
+                                    {{ pdt.nomProduit }}
+                                </h5>
+                                {# <div class="card-text">
+                                #}{# "markdown_to_html" permet de supprimer les balises "<div>" (comme htmlspecialchars) #}{#
+                                {{ pdt.description|markdown_to_html }}
+                            </div> #}
+                                <div class="row product-links d-flex justify-content-between">
+                                    <a href="#"     {# href="{{ path('panier_ajouter',{id:pdt.id}) }}" #}
+                                       class="card-link btn btn-outline-info">
+                                        {{ pdt.prixProduit }}€
+                                    </a>
+                                    {# <a href="{{ path('panier_ajouter',{id:pdt.id}) }}"
+                                       class="card-link btn btn-outline-dark ">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </a> #}
+                                    <a  href="{{ path('newstyl_produit_show',{id:pdt.id}) }}"
+                                       class="card-link btn btn-outline-dark">
+                                        <i class="fas fa-info"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endif %}
             {% endfor %}
         </div>
-        <hr>
-        <div class="col">
-            <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="13000">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img class="d-block w-100 " src="../../public/img/eru.jpg" alt="Second slide">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block w-100 " src="../../public/img/taro.jpg" alt="Third slide">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <hr>
-        <div class="">
-            <h2>Notre sélection</h2>
-
-            <div class="row">
-                {% for pdt in produit|sort %}
-                    {% if pdt.id in range(1,4) %}
-                        <div id="selection" class="col-sm-3 col">  <!-- d-block can be useful here-->
-                            <hr>
-                            <h4>{{ pdt.categorie }}</h4>
-                            <h2>{{ pdt.nomProduit }}</h2>
-
-                            <img src="{{ 'img/produits/' }}{{ pdt.imgNameProduit }}" alt="product">
-
-                            <blockquote>{{ pdt.description }}</blockquote>
-                            <a href="{{ path('panier_ajouter',{id:pdt.id}) }}"><i class="fas fa-shopping-cart"
-                                                                                  style="font-size: 1.5rem"></i> </a>
-                            <a style="font-size: 1.5rem">{{ pdt.prixProduit }}€</a>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        </div>
-    </body>
-
 
 {% endblock %}
+

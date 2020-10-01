@@ -81,4 +81,5 @@ class TableClient
 
         return $this;
     }
+
 }

@@ -1,5 +1,5 @@
 <form method="post" >
-    {% if error %}
+    {% if error %}  {# récupère et affiche une erreur survenue lors du traitement de notre formulaire s'il y en a #}
         <div class="alert alert-danger">
             <div class="callout alert">
                 <span>{{ error.messageKey|trans(error.messageData, 'security') }}</span>
@@ -7,37 +7,39 @@
         </div>
     {% endif %}
 
-    <fieldset class="fieldset">
-        <legend>Entrez vos informations de connexion</legend>
-        <div class="cell">
-            <label>Email
-                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
-                       placeholder="Entrez votre email" required autofocus>
-            </label>
-        </div>
-        <div class="cell">
-            <label> Mot de passe
-                <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Votre mot de passe" required>
-            </label>
-        </div>
-        <div>
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
-        </div>
-        <div class="cell">
-            <input id="checkbox" type="checkbox" name="_remember_me" />
-            <label for="checkbox">Remenber me </label>
-        </div>
-        <div>
-            <button class="btn btn-lg btn-primary" type="submit">Valider</button>
-        </div>
-    </fieldset>
+        <fieldset >
+            <div class="card-body" >
+                <legend class="card-title text-center">Entrez vos informations de connexion</legend>
+                <div class="col form-group">
+                    <label>Email
+                        <input type="email" name="email" value="{{ last_username }}" id="inputEmail" class="form-control"
+                               placeholder="Entrez votre email" required autofocus>
+                    </label>
+                </div>
+                <div class="col form-group">
+                    <label> Mot de passe
+                        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Votre mot de passe" required>
+                    </label>
+                </div>
+                <div>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+                </div>
+                <div class="col form-group form-inline">
+                    <input id="checkbox" type="checkbox" name="_remember_me" class="form-check-input"/>
+                    <label for="checkbox" class="form-check-label">Remenber me</label>
+                </div>
+                <div class="row mx-4 justify-content-between">
+                    <button class="btn btn-success" type="submit"><i class="far fa-paper-plane"></i> Valider</button>
+                    <button class="btn btn-danger" type="reset"><i class="fas fa-trash-alt"></i> Supprimer</button>
+                </div>
+            </div>
+        </fieldset>
 
     {#{% if app.user %}
         <div class="mb-3">
             You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
     {% endif %}#}
-
 </form>
 
 

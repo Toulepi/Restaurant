@@ -1,0 +1,26 @@
+         /* SCSS */
+//LOGO
+ .logo{
+   font-size: 1.5rem!important;
+ }
+            /* Barre de navigation */
+  nav{
+    a{
+      font-family: "Papyrus",cursive;
+    }
+  }
+  fieldset{
+    border-radius: .6em;
+    legend{
+      &:hover{  /* l'elt "legend" change de couleur au "hover" */
+        color: whitesmoke;
+        transform: translateX(-.3em);
+        text-shadow: 0 .3rem 0 silver;
+      }
+    }
+  }
+
+  #login_form, #register_form{
+    box-shadow: .1em .3em .9em 1em rgba(0,0,0,0.05);
+    border-radius: .6em;
+  }

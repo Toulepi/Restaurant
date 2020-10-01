@@ -19,10 +19,10 @@ class CategorieRepository extends ServiceEntityRepository
         parent::__construct($registry, Categorie::class);
     }
 
-    // /**
-    //  * @return Categorie[] Returns an array of Categorie objects
-    //  */
-    /*
+    /**
+    * @return Categorie[] Returns an array of Categorie objects
+    *
+    */
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('c')
@@ -34,17 +34,36 @@ class CategorieRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Categorie
+    /**
+     * @param $value
+     * @return Categorie[]
+     */
+    public function findByWord($value)
+    {
+        $query = $this->createQueryBuilder('c')
+            ->where('c.nom_catg LIKE :key')
+//            ->setMaxResults(20)
+            ->setParameter('key', '%' . $value . '%')
+            ->getQuery();
+//        return $this->createQueryBuilder('p')
+//            ->andWhere('p.nom_produit = :val')
+//            ->setParameter('val', $value)
+//            ->orderBy('p.id', 'ASC')
+//            ->setMaxResults(10)
+//            ->getQuery()
+//            ->getResult();
+        return $query->getResult();
+    }
+
+   /* public function findOneBySomeField($value): ?Categorie
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')
             ->setParameter('val', $value)
-            ->getQuery()
+            ->getQuery(loca)
             ->getOneOrNullResult()
         ;
-    }
-    */
+    }*/
+
 }

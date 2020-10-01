@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ titre_page }} {% endblock %}
+
+{% block body %}
+    <hr>
+    <div class="row my-1">
+        <div class="my-3 mx-1 w-25 h-100 animate__animated animate__fadeInLeft">
+            <div class="col dropdown">
+                <div class="">
+                    <a class="btn btn-secondary btn-block " href="{{ path('newstyl_accueil') }}">
+                        Catégories
+                    </a>
+                    {% for cat in categorie %}
+                        <div class="col dropdown">
+                            <div class="dropdown">
+                                {# Pour chaque catégorie on veut afficher la liste des produits #}
+                                {# le formulaire ci-dessous permet de récupérer le nom de la catégories selectionnée par l'internaute #}
+                                <form action="{{ path('newstyl_search') }}">
+                                    <input class="form-control mr-sm-2 far fa-search" type="hidden" name="search"
+                                           value="{{ cat.nomCatg }}">
+                                    <button type="submit" class="dropdown-item">{{ cat.nomCatg }} </button>
+                                </form>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="w-70 h-75">
+            {{ include('carousel.html.twig') }}
+        </div>
+    </div>
+    <hr>
+        <section class="bg_image animate__animated animate__fadeInRight">
+            <h2 class="text-center">{{ mot }}</h2>
+        </section>
+    <hr>
+    <div>
+        <div class="row">
+            {# affichage de tous les "produits" dont le nom est similaire au 'mot' recherché ex: '%mot%'
+            ou affichage de tous les produits liés à une catégorie #}
+            {% for pdt in product %}
+                <div class="col-md-4 animate__animated animate__fadeInLeft mt-3">
+                    <div class="card profile-card-5 mx-4 h-100">
+                        <div class="card-img card-img-block h-60">
+                            <img src="{{ asset('img/produits/') }}{{ pdt.imgNameProduit }}"
+                                 class="card-img-top img-thumbnail h-100"
+                                 alt="Product img"/> {# |imagine_filter('medium_square') #}
+                        </div>
+                        <div class="card-body mx-2 text-center">
+                            <h4 class="card-title">
+                                {{ pdt.categorie }}
+                            </h4>
+                            <h5 class="card-title">
+                                {{ pdt.nomProduit }}
+                            </h5>
+                            {#<div class="card-text">
+                                {{ pdt.description|markdown_to_html }}
+                            </div>#}
+                            <div class="row product-links d-flex justify-content-between">
+                                <a href="{{ path('panier_ajouter',{id:pdt.id}) }}"
+                                   class="card-link btn btn-outline-info">
+                                    {{ pdt.prixProduit }}€
+                                </a>
+                                {#<a href="{{ path('panier_ajouter',{id:pdt.id}) }}"
+                                   class="card-link btn btn-outline-dark ">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </a>#}
+                                 <a  href="#"               {# href="{{ path('newstyl_produit_show',{id:pdt.id}) }}"  #}
+                                   class="card-link btn btn-outline-dark">
+                                    <i class="fas fa-info"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+

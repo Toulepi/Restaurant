@@ -1,17 +1,18 @@
 security:
   encoders:
-    App\Entity\User:
-      algorithm: bcrypt   # encryptage du mot de passe
+    App\Entity\Client:
+      algorithm: bcrypt
 
   # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
   providers: #ce sont des fournisseurs d'authentifications
     # used to reload user from session & other features (e.g. switch_user)
     app_user_provider:
       entity:
-        class: App\Entity\User
+        class: App\Entity\Client  # Le provider qui va gérer les authentifications est le classe "Client"
         property: email
+    # used to reload user from session & other features (e.g. switch_user)
 
-  firewalls:
+  firewalls: # permet de gérer l'accès aux ressources (les autorisations)
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/  # la sécurité ne sera pas requise pour tout ce qui commence par _(profiler|wdt)|css|images|js
       security: false
@@ -39,5 +40,5 @@ security:
   # Easy way to control access for large sections of your site
   # Note: Only the *first* access control that matches will be used
   access_control:
-   #- { path: ^/admin, roles: ROLE_ADMIN }  # le User qui a le rôle admin, a accès aux routes qui commencent par "/admin"
+  #- { path: ^/admin, roles: ROLE_ADMIN }  # le User qui a le rôle admin, a accès aux routes qui commencent par "/admin"
   # - { path: ^/profile, roles: ROLE_USER }

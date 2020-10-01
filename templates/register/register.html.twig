@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registration{% endblock %}
+
+{% block body %}
+
+    <div id="register_form" style="margin: 3rem auto" class="w-50" >
+        {{ form_start(form) }}
+        <fieldset>
+            <div class="card-body">
+                <legend class="card-title text-center">Formulaire D'inscription</legend>
+                <div class="col form-group">
+
+                    <label for="female"> Madame
+                        <input type="radio" id="female" name="gender" value="female">
+                    </label>
+                    <label for="male"> Monsieur
+                        <input type="radio" id="male" name="gender" value="male">
+                    </label>
+                </div>
+
+                <div class="col ">
+                    <label class="text-capitalize"></label>
+                        {{ form_row(form.nom_client) }}
+                </div>
+                <div class="col ">
+                    {{ form_row(form.prenom_client) }}
+                    <label class="text-capitalize "></label>
+                </div>
+                <div class="col ">
+                    {{ form_row(form.email) }}
+                    <label class="text-capitalize"></label>
+                </div>
+                <div class="col ">
+{#                    {{ form_row(form.mdp) }}#}
+                    <label class="text-capitalize"></label>
+                </div>
+                <div class="col ">
+                    {{ form_row(form.numTel) }}
+                    <label class="text-capitalize"></label>
+                </div>
+                <div class="row mx-4 justify-content-between">
+                    <button type="submit" class="btn btn-success"><i class="far fa-paper-plane"></i> {{ button|default("Valider") }}</button>
+                    <button type="reset" class="btn btn-danger"><i class="fas fa-trash-alt"></i> {{ button|default("Supprimer") }}</button>
+                </div>
+            </div>
+        </fieldset>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}
+

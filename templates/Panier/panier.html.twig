@@ -3,9 +3,54 @@
 {% block title %}Panier{% endblock %}
 
 {% block body %}
+    {#  {{ parent() }} affiche d'abord le contenu du "parent" #}
+    <h4>Votre Panier</h4>
 
-  {{ parent() }}
-  <h1>Il est vide</h1>
+    <table class="table">
+        <thead class="thead-light">
+        <tr>
+            <th>Désignation</th>
+            <th>Image</th>
+            <th>Quantité</th>
+            <th>Prix U HT</th>
+            <th>Sous total</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for lc in lignesCmds %}
+            <tr>
+                <td>{{ lc.ligne_cmd }}</td>
+                <td><img class="img-thumbnail img-tiny"
+                         src="{{ asset('img/produits/' ) }}{{ lc.ligne_cmd.Produit.imgNameProduit }}"
+                          alt="{{ lc.ligne_cmd }}"></td>   {# |imagine_filter('medium_square')   #}
+                <td class="align-center"> {{ lc.ligne_cmd.quantite }} </td>
+                <td class="align-center"> {{ lc.ligne_cmd.Produit.prixProduit }} </td>
+                <td class="align-right">
+                    <strong>{{ lc.ligne_cmd.sousTotal }} €</strong>
+                </td>
+                <td class="text-right">
+                    <a class="panierActionSupprimer"
+                       href="{{ path('newstyl_accueil',{id:lc.ligne_cmd.produit.id}) }}" target="_blank">
+                        <strong><i class="fas fa-trash-alt fa-lg"></i> </strong>
+                    </a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Le panier est vide</td>
+            </tr>
+        {% endfor %}
+
+        {% if total > 0 %}
+            <tr class="total">
+                <td colspan="2" class="text-right"><strong>TOTAL</strong></td>
+                <td class="text-right primary"><strong>{{ total }} €</strong></td>
+                <td class="text-right primary"></td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
 
 {% endblock %}
 

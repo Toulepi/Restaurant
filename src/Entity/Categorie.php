@@ -141,7 +141,6 @@ class Categorie
                 $sousCatg->setParent(null);
             }
         }
-
         return $this;
     }
 }
